@@ -22,6 +22,9 @@ public class ChefController : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         moveKnifeToMousePosition();
+        if(Input.GetMouseButtonUp(0)) {
+            cut();
+        }
     }
 
     void moveKnifeToMousePosition() {
@@ -31,5 +34,10 @@ public class ChefController : MonoBehaviour {
             float mousePosX = Input.mousePosition.x;
             knife.transform.position = new Vector3(knifeXPosMin + (Input.mousePosition.x / (gamePlayAreaRightBoarder - gamePlayAreaLeftBoarder)) * (knifeXPosMax - knifeXPosMin), currKnifePos.y, currKnifePos.z);
         }
+    }
+
+    void cut() {
+        Animator animator = knife.GetComponentInChildren<Animator>();
+        animator.Play("KnifeDown");
     }
 }
