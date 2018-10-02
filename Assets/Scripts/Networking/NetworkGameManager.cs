@@ -15,10 +15,23 @@ public class NetworkGameManager : NetworkManager {
     public event ConnectionStatusHandler onClientConnectionStatusChanged;
     public bool dontAcceptNewClients { get; set; }
 
+    public GameObject chefPrefab;
+    public GameObject fishPrefab;
+
     public void StopDiscovery () {
         if (discovery != null && discovery.running) {
             discovery.StopBroadcast();
             discovery.ClearListeners();
         }
+    }
+
+    public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) {
+        GameObject obj;
+        if (conn.address == "localClient") {
+            obj = Instantiate(chefPrefab);
+        } else {
+            obj = Instantiate(fishPrefab);
+        }
+        NetworkServer.AddPlayerForConnection(conn, obj, playerControllerId);
     }
 }

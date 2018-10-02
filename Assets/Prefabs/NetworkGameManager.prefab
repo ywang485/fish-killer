@@ -121,3 +121,6 @@ MonoBehaviour:
   matchSize: 4
   isNetworkActive: 0
   matchMaker: {fileID: 0}
+  networkDiscoveryPrefab: {fileID: 0}
+  chefPrefab: {fileID: 0}
+  fishPrefab: {fileID: 0}
