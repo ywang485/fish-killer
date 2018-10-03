@@ -17,12 +17,13 @@ public class ChefController : MonoBehaviour {
         knife = transform.Find("Knife").gameObject;
         gamePlayAreaLeftBoarder = 0f;
         gamePlayAreaRightBoarder = Screen.width;
-}
+    }
 
     // Update is called once per frame
     void Update() {
         moveKnifeToMousePosition();
-        if(Input.GetMouseButtonUp(0)) {
+        if (Input.GetMouseButtonUp(0))
+        {
             cut();
         }
     }
