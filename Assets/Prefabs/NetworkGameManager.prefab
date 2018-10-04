@@ -65,7 +65,9 @@ MonoBehaviour:
   m_PlayerSpawnMethod: 0
   m_OfflineScene: 
   m_OnlineScene: 
-  m_SpawnPrefabs: []
+  m_SpawnPrefabs:
+  - {fileID: 1220413240998496, guid: 8431b1c51c1fe7141b3decbeefa00553, type: 2}
+  - {fileID: 1220413240998496, guid: bbe25be4a3ffe614699c8452c30a2f1a, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -122,5 +124,5 @@ MonoBehaviour:
   isNetworkActive: 0
   matchMaker: {fileID: 0}
   networkDiscoveryPrefab: {fileID: 0}
-  chefPrefab: {fileID: 0}
-  fishPrefab: {fileID: 0}
+  chefPrefab: {fileID: 1220413240998496, guid: 8431b1c51c1fe7141b3decbeefa00553, type: 2}
+  fishPrefab: {fileID: 1220413240998496, guid: bbe25be4a3ffe614699c8452c30a2f1a, type: 2}
