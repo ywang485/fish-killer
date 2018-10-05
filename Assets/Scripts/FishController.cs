@@ -16,12 +16,20 @@ public class FishController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetMouseButton(0)) {
+        if (Input.GetKey(KeyCode.UpArrow)) {
             animator.Play("FishFlop-1");
         }
-        else if (Input.GetMouseButton(1))
+        else if (Input.GetKey(KeyCode.DownArrow))
         {
             animator.Play("FishFlop-2");
+        }
+        else if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            animator.Play("FishFlop-3");
+        }
+        else if (Input.GetKey(KeyCode.RightArrow))
+        {
+            animator.Play("FishFlop-4");
         }
         else {
             animator.Play("Still");
