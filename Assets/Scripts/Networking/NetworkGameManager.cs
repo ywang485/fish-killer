@@ -17,8 +17,7 @@ public class NetworkGameManager : NetworkManager {
 
     public GameObject chefPrefab;
     public GameObject fishPrefab;
-
-    // Cameras
+    public Transform fishSpawningPoint;
     public Camera chefCamera;
     public Camera fishCamera;
 
@@ -36,7 +35,7 @@ public class NetworkGameManager : NetworkManager {
             chefCamera.gameObject.SetActive(true);
             fishCamera.gameObject.SetActive(false);
         } else {
-            obj = Instantiate(fishPrefab);
+            obj = Instantiate(fishPrefab, fishSpawningPoint.position, Quaternion.identity);
             chefCamera.gameObject.SetActive(false);
             fishCamera.gameObject.SetActive(true);
         }
