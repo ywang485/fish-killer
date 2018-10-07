@@ -5,8 +5,8 @@ public class ChefController : NetworkBehaviour {
 
     public const float knifeXPosMin = -1f;
     public const float knifeXPosMax = 1f;
-    public const float knifeYPosMax = 2.3f;
-    public const float knifeYPosMin = 1.7f;
+    public const float knifeYPosMax = 3.0f;
+    public const float knifeYPosMin = 2.3f;
 
     public const float knifeDroppingSpeed = 3f;
     public GameObject knife;

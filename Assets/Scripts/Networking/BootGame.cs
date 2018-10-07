@@ -9,6 +9,7 @@ public class BootGame : MonoBehaviour {
     public Text connectingTextUI;
     public Text joinHint;
     private ILobby lobby;
+
     void Start () {
         GameObject.DontDestroyOnLoad(gameObject);
         // check if a lobby exists

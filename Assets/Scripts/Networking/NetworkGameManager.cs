@@ -18,6 +18,10 @@ public class NetworkGameManager : NetworkManager {
     public GameObject chefPrefab;
     public GameObject fishPrefab;
 
+    // Cameras
+    public Camera chefCamera;
+    public Camera fishCamera;
+
     public void StopDiscovery () {
         if (discovery != null && discovery.running) {
             discovery.StopBroadcast();
@@ -29,8 +33,12 @@ public class NetworkGameManager : NetworkManager {
         GameObject obj;
         if (conn.address == "localClient") {
             obj = Instantiate(chefPrefab);
+            chefCamera.gameObject.SetActive(true);
+            fishCamera.gameObject.SetActive(false);
         } else {
             obj = Instantiate(fishPrefab);
+            chefCamera.gameObject.SetActive(false);
+            fishCamera.gameObject.SetActive(true);
         }
         NetworkServer.AddPlayerForConnection(conn, obj, playerControllerId);
     }
