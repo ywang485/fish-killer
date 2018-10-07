@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Networking;
 
-public class ChefController : MonoBehaviour {
+public class ChefController : NetworkBehaviour {
 
     public const float knifeXPosMin = -1f;
     public const float knifeXPosMax = 1f;
@@ -18,8 +17,7 @@ public class ChefController : MonoBehaviour {
 
     private GameObject knife;
 
-	// Use this for initialization
-	void Start () {
+    void Start () {
         knife = transform.Find("Knife").gameObject;
         gamePlayAreaLeftBoarder = 0f;
         gamePlayAreaRightBoarder = Screen.width;
@@ -27,12 +25,15 @@ public class ChefController : MonoBehaviour {
         gamePlayAreaTopBoarder = Screen.height;
     }
 
-    // Update is called once per frame
     void Update() {
-        moveKnifeToMousePosition();
-        if (Input.GetMouseButtonUp(0))
-        {
-            cut();
+        if (isLocalPlayer) {
+            moveKnifeToMousePosition();
+            if (Input.GetMouseButtonUp(0))
+            {
+                CmdCut();
+            }
+        } else {
+            // TODO sync knife position
         }
     }
 
@@ -64,7 +65,13 @@ public class ChefController : MonoBehaviour {
 
     }
 
-    void cut() {
+    [Command]
+    void CmdCut () {
+        RpcOnCut();
+    }
+
+    [ClientRpc]
+    void RpcOnCut () {
         Animator animator = knife.GetComponentInChildren<Animator>();
         animator.Play("KnifeDown");
     }

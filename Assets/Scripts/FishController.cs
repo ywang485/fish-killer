@@ -1,39 +1,62 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Networking;
 
-public class FishController : MonoBehaviour {
+public class FishController : NetworkBehaviour {
 
+    public enum FlopType {
+        None,
+        Flop1,
+        Flop2,
+        Flop3,
+        Flop4
+    }
     private Animator animator;
 
     private GameObject fishBody;
 
-    // Use this for initialization
     void Start () {
         fishBody = transform.Find("FishBody").gameObject;
         animator = fishBody.GetComponentInChildren<Animator>();
     }
-	
-	// Update is called once per frame
-	void Update () {
-        if (Input.GetKey(KeyCode.UpArrow)) {
-            animator.Play("FishFlop-1");
-        }
-        else if (Input.GetKey(KeyCode.DownArrow))
-        {
-            animator.Play("FishFlop-2");
-        }
-        else if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            animator.Play("FishFlop-3");
-        }
-        else if (Input.GetKey(KeyCode.RightArrow))
-        {
-            animator.Play("FishFlop-4");
-        }
-        else {
-            animator.Play("Still");
-        }
 
+    void Update () {
+        if (Input.GetKeyDown(KeyCode.UpArrow)) {
+            CmdFlop(FlopType.Flop1);
+        } else if (Input.GetKeyDown(KeyCode.DownArrow)) {
+            CmdFlop(FlopType.Flop2);
+        } else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+            CmdFlop(FlopType.Flop3);
+        } else if (Input.GetKeyDown(KeyCode.RightArrow)) {
+            CmdFlop(FlopType.Flop4);
+        }/* else {
+            animator.Play("Still");
+        }*/
     }
+
+    [Command]
+    void CmdFlop (FlopType flopType) {
+        RpcOnFlop(flopType);
+    }
+
+    [ClientRpc]
+    void RpcOnFlop (FlopType flopType) {
+        switch (flopType) {
+        case FlopType.None:
+            animator.Play("Still");
+            break;
+        case FlopType.Flop1:
+            animator.Play("FishFlop-1");
+            break;
+        case FlopType.Flop2:
+            animator.Play("FishFlop-2");
+            break;
+        case FlopType.Flop3:
+            animator.Play("FishFlop-3");
+            break;
+        case FlopType.Flop4:
+            animator.Play("FishFlop-4");
+            break;
+        }
+    }
+
 }

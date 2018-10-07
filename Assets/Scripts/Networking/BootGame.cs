@@ -10,6 +10,7 @@ public class BootGame : MonoBehaviour {
     public Text joinHint;
     private ILobby lobby;
     void Start () {
+        GameObject.DontDestroyOnLoad(gameObject);
         // check if a lobby exists
         // if no, host the game and spawn as the killer
         // if yes, join the game and spawn as a fish
@@ -31,6 +32,13 @@ public class BootGame : MonoBehaviour {
                 }).OnError(Debug.LogError).OnFinally(() => connectingHint.SetActive(false));
             }
         }).OnError(Debug.LogError).OnFinally(() => connectingHint.SetActive(false));
+    }
+
+    void OnApplicationQuit () {
+        if (lobby != null) {
+            lobby.Leave();
+            lobby = null;
+        }
     }
 
     void OnDestroy () {
