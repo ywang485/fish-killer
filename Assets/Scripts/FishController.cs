@@ -20,17 +20,19 @@ public class FishController : NetworkBehaviour {
     }
 
     void Update () {
-        if (Input.GetKeyDown(KeyCode.UpArrow)) {
-            CmdFlop(FlopType.Flop1);
-        } else if (Input.GetKeyDown(KeyCode.DownArrow)) {
-            CmdFlop(FlopType.Flop2);
-        } else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-            CmdFlop(FlopType.Flop3);
-        } else if (Input.GetKeyDown(KeyCode.RightArrow)) {
-            CmdFlop(FlopType.Flop4);
-        }/* else {
-            animator.Play("Still");
-        }*/
+        if (isLocalPlayer) {
+            if (Input.GetKeyDown(KeyCode.UpArrow)) {
+                CmdFlop(FlopType.Flop1);
+            } else if (Input.GetKeyDown(KeyCode.DownArrow)) {
+                CmdFlop(FlopType.Flop2);
+            } else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+                CmdFlop(FlopType.Flop3);
+            } else if (Input.GetKeyDown(KeyCode.RightArrow)) {
+                CmdFlop(FlopType.Flop4);
+            }/* else {
+                animator.Play("Still");
+            }*/
+        }
     }
 
     [Command]
