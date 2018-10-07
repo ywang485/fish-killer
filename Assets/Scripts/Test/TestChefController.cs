@@ -4,8 +4,10 @@ using DG.Tweening;
 
 public class TestChefController : NetworkBehaviour {
     void Update () {
-        if (Input.GetButtonDown("Fire1")) {
-            CmdTestAction();
+        if (isLocalPlayer) {
+            if (Input.GetButtonDown("Fire1")) {
+                CmdTestAction();
+            }
         }
     }
 

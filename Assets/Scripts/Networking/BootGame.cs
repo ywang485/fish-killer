@@ -7,6 +7,7 @@ using OnlineService;
 public class BootGame : MonoBehaviour {
     public GameObject connectingHint;
     public Text connectingTextUI;
+    public Text joinHint;
     private ILobby lobby;
     void Start () {
         // check if a lobby exists
@@ -20,13 +21,27 @@ public class BootGame : MonoBehaviour {
                 connectingTextUI.text = "Joining";
                 lst[0].Join("").OnReturn((lobby) => {
                     this.lobby = lobby;
+                    ShowJoinHint("Joined As Fish");
                 }).OnError(Debug.LogError).OnFinally(() => connectingHint.SetActive(false));
             } else {
                 connectingTextUI.text = "Hosting";
                 service.CreateLobby("theOne", 20, "", LobbyType.Public, "", 0).OnReturn((lobby) => {
                     this.lobby = lobby;
+                    ShowJoinHint("Joined As Chef");
                 }).OnError(Debug.LogError).OnFinally(() => connectingHint.SetActive(false));
             }
         }).OnError(Debug.LogError).OnFinally(() => connectingHint.SetActive(false));
+    }
+
+    void OnDestroy () {
+        if (lobby != null) {
+            lobby.Leave();
+            lobby = null;
+        }
+    }
+
+    public void ShowJoinHint (string text) {
+        joinHint.text = text;
+        joinHint.gameObject.SetActive(true);
     }
 }
