@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Networking;
 
-public class ChefController : MonoBehaviour {
+public class ChefController : NetworkBehaviour {
 
     public const float knifeXPosMin = -1f;
     public const float knifeXPosMax = 1f;
@@ -10,30 +9,37 @@ public class ChefController : MonoBehaviour {
     public const float knifeYPosMin = 1.7f;
 
     public const float knifeDroppingSpeed = 3f;
+    public GameObject knife;
 
     private float gamePlayAreaLeftBoarder;
     private float gamePlayAreaRightBoarder;
     private float gamePlayAreaTopBoarder;
     private float gamePlayAreaBottomBoarder;
 
-    private GameObject knife;
+    [SyncVar]
+    private Vector2 knifePosition;
 
-	// Use this for initialization
-	void Start () {
-        knife = transform.Find("Knife").gameObject;
+    void Start () {
         gamePlayAreaLeftBoarder = 0f;
         gamePlayAreaRightBoarder = Screen.width;
         gamePlayAreaBottomBoarder = 0f;
         gamePlayAreaTopBoarder = Screen.height;
     }
 
-    // Update is called once per frame
+    public override void OnStartServer () {
+        base.OnStartServer();
+        knifePosition = knife.transform.position;
+    }
+
     void Update() {
-        moveKnifeToMousePosition();
-        if (Input.GetMouseButtonUp(0))
-        {
-            cut();
+        if (isServer) { // NOTE Chef is always on the server
+            moveKnifeToMousePosition();
+            if (Input.GetMouseButtonUp(0))
+            {
+                CmdCut();
+            }
         }
+        UpdateKnifePosition();
     }
 
     void moveKnifeToMousePosition() {
@@ -60,11 +66,21 @@ public class ChefController : MonoBehaviour {
         } else if (newKnifePosY < knifeYPosMin) {
             newKnifePosY = knifeYPosMin;
         }
-        knife.transform.position = new Vector3(newKnifePosX, newKnifePosY, currKnifePos.z);
 
+        knifePosition = new Vector2(newKnifePosX, newKnifePosY);
     }
 
-    void cut() {
+    void UpdateKnifePosition () {
+        knife.transform.position = new Vector3(knifePosition.x, knifePosition.y, knife.transform.position.z);
+    }
+
+    [Command]
+    void CmdCut () {
+        RpcOnCut();
+    }
+
+    [ClientRpc]
+    void RpcOnCut () {
         Animator animator = knife.GetComponentInChildren<Animator>();
         animator.Play("KnifeDown");
     }

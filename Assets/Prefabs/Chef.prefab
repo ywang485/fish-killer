@@ -72,6 +72,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4262701530928522}
   - component: {fileID: 114263236882081236}
+  - component: {fileID: 114723421987698532}
   m_Layer: 0
   m_Name: Chef
   m_TagString: Untagged
@@ -114,7 +115,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1174991202852240}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.842, z: 1.5}
+  m_LocalPosition: {x: 0, y: 1.368, z: 1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4972068762544382}
@@ -271,3 +272,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625a2007e30554f9ebdf0511373ce094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  knife: {fileID: 1174991202852240}
+--- !u!114 &114723421987698532
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1417313112870726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 119
+    i1: 50
+    i2: 121
+    i3: 119
+    i4: 112
+    i5: 213
+    i6: 244
+    i7: 151
+    i8: 201
+    i9: 234
+    i10: 213
+    i11: 132
+    i12: 17
+    i13: 64
+    i14: 28
+    i15: 71
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
