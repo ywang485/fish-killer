@@ -31,14 +31,22 @@ public class NetworkGameManager : NetworkManager {
     public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) {
         GameObject obj;
         if (conn.address == "localClient") {
-            obj = Instantiate(chefPrefab);
-            //chefCamera.gameObject.SetActive(true);
-            fishCamera.gameObject.SetActive(false);
+            obj = instantiateGameForFish();
         } else {
-            obj = Instantiate(fishPrefab, fishSpawningPoint.position, Quaternion.identity);
-            //chefCamera.gameObject.SetActive(false);
-            fishCamera.gameObject.SetActive(true);
+            obj = instantiateGameForFish();
         }
         NetworkServer.AddPlayerForConnection(conn, obj, playerControllerId);
+    }
+
+    private GameObject instantiateGameForChef() {
+        GameObject obj = Instantiate(chefPrefab);
+        fishCamera.gameObject.SetActive(false);
+        return obj;
+    }
+
+    private GameObject instantiateGameForFish() {
+        GameObject obj = Instantiate(fishPrefab, fishSpawningPoint.position, Quaternion.identity);
+        fishCamera.gameObject.SetActive(true);
+        return obj;
     }
 }

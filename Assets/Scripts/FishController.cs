@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-public class FishController : NetworkBehaviour {
+public class FishController : NetworkBehaviour
+{
 
-    public enum FlopType {
+    public enum FlopType
+    {
         None,
         Flop1,
         Flop2,
@@ -14,26 +16,71 @@ public class FishController : NetworkBehaviour {
 
     private GameObject fishBody;
 
-    void Start () {
+    private float motionStartTime = 0f;
+    private float motionDuration = 0f;
+    private FishAI fishAI;
+
+    void Start()
+    {
         fishBody = transform.Find("FishBody").gameObject;
         animator = fishBody.GetComponentInChildren<Animator>();
+        if (!isLocalPlayer)
+        {
+            // Plug in random fish AI
+            int AIIdx = Random.Range(0, 1);
+            if (AIIdx == 0) {
+                fishAI = new UniformRandomFishAI();
+            }
+            else {
+                fishAI = new StaticMotionFishAI();
+            }
+            FishMotion currMotion = fishAI.nextMotion();
+            animator.Play(currMotion.motion);
+            motionStartTime = Time.time;
+            motionDuration = currMotion.duration;
+        }
     }
 
-    void Update () {
-        if (isLocalPlayer) {
-            if (Input.GetKeyDown(KeyCode.UpArrow)) {
+    void Update()
+    {
+        if (isLocalPlayer)
+        {
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
                 CmdFlop(FlopType.Flop1);
-            } else if (Input.GetKeyDown(KeyCode.DownArrow)) {
+            }
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
                 CmdFlop(FlopType.Flop2);
-            } else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+            }
+            else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
                 CmdFlop(FlopType.Flop3);
-            } else if (Input.GetKeyDown(KeyCode.RightArrow)) {
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
                 CmdFlop(FlopType.Flop4);
             }/* else {
                 animator.Play("Still");
             }*/
         }
+        else
+        {
+            executeAIMotion();
+        }
     }
+
+    private void executeAIMotion()
+    {
+        if (Time.time - motionStartTime >= motionDuration)
+        {
+            FishMotion currMotion = fishAI.nextMotion();
+            animator.Play(currMotion.motion);
+            motionStartTime = Time.time;
+            motionDuration = currMotion.duration;
+        }
+    }
+
 
     [Command]
     void CmdFlop (FlopType flopType) {

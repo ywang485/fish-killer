@@ -450,7 +450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b23b93d2c8619a4d9db90a07e302f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftBound: -60
+  leftBound: -80
   rightBound: 60
   upBound: 30
   downBound: -60
