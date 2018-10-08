@@ -28,10 +28,8 @@ public class ChefController : NetworkBehaviour {
         gamePlayAreaBottomBoarder = 0f;
         gamePlayAreaTopBoarder = Screen.height;
 
-        knifePosition = knife.transform.position;
-        knifeRelativePos = viewCamera.transform.InverseTransformPoint(knife.transform.position);
-
         viewCamera.gameObject.SetActive(isLocalPlayer);
+        Cursor.visible = false;
     }
 
     public override void OnStartServer () {
@@ -49,14 +47,8 @@ public class ChefController : NetworkBehaviour {
     }
 
     private void UpdateKnifeTransform () {
-        var knifeRotation = Quaternion.Euler(knife.transform.eulerAngles.x, viewCamera.transform.eulerAngles.y, knife.transform.eulerAngles.z);
-        Vector3 newKnifePos = knife.transform.position;
-        var transformedPos = viewCamera.transform.position + knifeRotation * knifeRelativePos;
-        newKnifePos.x = transformedPos.x;
-        newKnifePos.z = transformedPos.z;
-        knife.transform.position = newKnifePos;
-
-        knife.transform.rotation = knifeRotation;
+        var chefRotation = Quaternion.Euler(transform.eulerAngles.x, viewCamera.transform.eulerAngles.y, viewCamera.transform.eulerAngles.z);
+        transform.rotation = chefRotation;
     }
 
     [Command]
