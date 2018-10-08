@@ -15,6 +15,9 @@ public class ChefController : NetworkBehaviour {
     private float gamePlayAreaRightBoarder;
     private float gamePlayAreaTopBoarder;
     private float gamePlayAreaBottomBoarder;
+    public Camera viewCamera;
+
+    private Vector3 knifeRelativePos;
 
     [SyncVar]
     private Vector2 knifePosition;
@@ -24,54 +27,36 @@ public class ChefController : NetworkBehaviour {
         gamePlayAreaRightBoarder = Screen.width;
         gamePlayAreaBottomBoarder = 0f;
         gamePlayAreaTopBoarder = Screen.height;
+
+        knifePosition = knife.transform.position;
+        knifeRelativePos = viewCamera.transform.InverseTransformPoint(knife.transform.position);
+
+        viewCamera.gameObject.SetActive(isLocalPlayer);
     }
 
     public override void OnStartServer () {
         base.OnStartServer();
-        knifePosition = knife.transform.position;
     }
 
     void Update() {
         if (isServer) { // NOTE Chef is always on the server
-            moveKnifeToMousePosition();
             if (Input.GetMouseButtonUp(0))
             {
                 CmdCut();
             }
         }
-        UpdateKnifePosition();
+        UpdateKnifeTransform();
     }
 
-    void moveKnifeToMousePosition() {
-        Vector3 currKnifePos = knife.transform.position;
-        float newKnifePosX = knife.transform.position.x;
-        float newKnifePosY = knife.transform.position.y;
-        if (Input.mousePosition.x >= gamePlayAreaLeftBoarder && Input.mousePosition.x <= gamePlayAreaRightBoarder)
-        {
-            float mousePosX = Input.mousePosition.x;
-            newKnifePosX = knifeXPosMin + (Input.mousePosition.x / (gamePlayAreaRightBoarder - gamePlayAreaLeftBoarder)) * (knifeXPosMax - knifeXPosMin);
-        }
-        // For mouse wheel controlled knife Y position
-        newKnifePosY = currKnifePos.y + knifeDroppingSpeed * Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime;
+    private void UpdateKnifeTransform () {
+        var knifeRotation = Quaternion.Euler(knife.transform.eulerAngles.x, viewCamera.transform.eulerAngles.y, knife.transform.eulerAngles.z);
+        Vector3 newKnifePos = knife.transform.position;
+        var transformedPos = viewCamera.transform.position + knifeRotation * knifeRelativePos;
+        newKnifePos.x = transformedPos.x;
+        newKnifePos.z = transformedPos.z;
+        knife.transform.position = newKnifePos;
 
-        // For mouse Y axis controlled knife Y  position
-        /*if (Input.mousePosition.y >= gamePlayAreaBottomBoarder && Input.mousePosition.y <= gamePlayAreaTopBoarder) {
-            float mousePosY = Input.mousePosition.y;
-            newKnifePosY = knifeYPosMin + (Input.mousePosition.y / (gamePlayAreaTopBoarder - gamePlayAreaBottomBoarder)) * (knifeYPosMax - knifeYPosMin);
-
-        }*/
-
-        if (newKnifePosY > knifeYPosMax) {
-            newKnifePosY = knifeYPosMax;
-        } else if (newKnifePosY < knifeYPosMin) {
-            newKnifePosY = knifeYPosMin;
-        }
-
-        knifePosition = new Vector2(newKnifePosX, newKnifePosY);
-    }
-
-    void UpdateKnifePosition () {
-        knife.transform.position = new Vector3(knifePosition.x, knifePosition.y, knife.transform.position.z);
+        knife.transform.rotation = knifeRotation;
     }
 
     [Command]

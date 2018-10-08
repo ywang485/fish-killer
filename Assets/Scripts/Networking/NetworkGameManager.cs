@@ -32,11 +32,11 @@ public class NetworkGameManager : NetworkManager {
         GameObject obj;
         if (conn.address == "localClient") {
             obj = Instantiate(chefPrefab);
-            chefCamera.gameObject.SetActive(true);
+            //chefCamera.gameObject.SetActive(true);
             fishCamera.gameObject.SetActive(false);
         } else {
             obj = Instantiate(fishPrefab, fishSpawningPoint.position, Quaternion.identity);
-            chefCamera.gameObject.SetActive(false);
+            //chefCamera.gameObject.SetActive(false);
             fishCamera.gameObject.SetActive(true);
         }
         NetworkServer.AddPlayerForConnection(conn, obj, playerControllerId);
