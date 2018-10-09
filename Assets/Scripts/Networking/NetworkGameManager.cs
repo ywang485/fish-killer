@@ -31,7 +31,7 @@ public class NetworkGameManager : NetworkManager {
     public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) {
         GameObject obj;
         if (conn.address == "localClient") {
-            obj = instantiateGameForFish();
+            obj = instantiateGameForChef();
         } else {
             obj = instantiateGameForFish();
         }
