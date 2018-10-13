@@ -18,7 +18,6 @@ public class NetworkGameManager : NetworkManager {
     public GameObject chefPrefab;
     public GameObject fishPrefab;
     public Transform fishSpawningPoint;
-    public Camera chefCamera;
     public Camera fishCamera;
 
     public bool cuttingBoardTaken = false;
@@ -45,9 +44,12 @@ public class NetworkGameManager : NetworkManager {
         }
     }
 
+    // NOTE this function is only called on the host and never on the client
+    // to initialize on the client, put the code in `Start()` or `OnStartClient()` of `FishController`
     public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) {
         GameObject obj;
-        if (conn.address == "localClient") {
+        fishCamera.gameObject.SetActive(false);// temporary
+        if (conn.address == "localClient" && playerControllerId == 0) {
             obj = instantiateGameForChef();
         } else {
             obj = instantiateGameForFish();
@@ -57,13 +59,11 @@ public class NetworkGameManager : NetworkManager {
 
     private GameObject instantiateGameForChef() {
         GameObject obj = Instantiate(chefPrefab);
-        fishCamera.gameObject.SetActive(false);
         return obj;
     }
 
     private GameObject instantiateGameForFish() {
         GameObject obj = Instantiate(fishPrefab, fishSpawningPoint.position, Quaternion.identity);
-        fishCamera.gameObject.SetActive(true);
         return obj;
     }
 }
