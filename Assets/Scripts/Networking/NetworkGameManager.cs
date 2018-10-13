@@ -24,16 +24,18 @@ public class NetworkGameManager : NetworkManager {
     public Transform fishOncuttingBoardTransform;
 
     public void moveFishToCuttingBoard(GameObject fish) {
-        fish.transform.position = fishOncuttingBoardTransform.position;
         cuttingBoardTaken = true;
-        fish.GetComponent<FishControl>().onCuttingBoard = true;
+        var fishControl = fish.GetComponent<FishControl>();
+        fishControl.onCuttingBoard = true;
+        fishControl.RpcMoveToBoard(fishOncuttingBoardTransform.position);
         GameObject.FindWithTag("Chef").GetComponent<ChefController>().switchToFishCutting();
     }
 
     public void moveFishBackToBasket(GameObject fish) {
-        fish.transform.position = fishSpawningPoint.position;
         cuttingBoardTaken = false;
-        fish.GetComponent<FishControl>().onCuttingBoard = false;
+        var fishControl = fish.GetComponent<FishControl>();
+        fishControl.onCuttingBoard = false;
+        fishControl.RpcMoveTo(fishSpawningPoint.position);
         GameObject.FindWithTag("Chef").GetComponent<ChefController>().switchToFishSelection();
     }
 

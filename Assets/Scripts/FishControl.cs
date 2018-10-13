@@ -24,4 +24,14 @@ public class FishControl : NetworkBehaviour {
         }
     }
 
+    [ClientRpc]
+    public void RpcMoveToBoard (Vector3 pos) {
+        transform.position = pos;
+    }
+
+    [ClientRpc]
+    public void RpcMoveTo (Vector3 pos) {
+        transform.position = pos;
+    }
+
 }

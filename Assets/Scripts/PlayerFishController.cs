@@ -17,9 +17,8 @@ public class PlayerFishController : NetworkBehaviour
         viewCamera.gameObject.SetActive(isLocalPlayer && !isServer);
     }
 
+    [ServerCallback]
     void OnMouseDown(){
-        // FIXME this part of code should be in chef
-        // TODO network sync
         if(!control.onCuttingBoard && !NetworkGameManager.instance.cuttingBoardTaken) {
             NetworkGameManager.instance.moveFishToCuttingBoard(gameObject);
         } else if (control.onCuttingBoard) {
