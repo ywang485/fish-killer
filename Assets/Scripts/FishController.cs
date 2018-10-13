@@ -12,7 +12,6 @@ public class FishController : NetworkBehaviour
         Flop3,
         Flop4
     }
-    private Animator animator;
 
     private GameObject fishBody;
 
@@ -21,26 +20,27 @@ public class FishController : NetworkBehaviour
     private FishAI fishAI;
 
     public bool onCuttingBoard = false;
+    public Animator fishAnimator;
+    public Camera viewCamera;
 
-    void Start()
-    {
-        fishBody = transform.Find("FishBody").gameObject;
-        animator = fishBody.GetComponentInChildren<Animator>();
-        if (!isLocalPlayer)
-        {
-            // Plug in random fish AI
-            int AIIdx = Random.Range(0, 1);
-            if (AIIdx == 0) {
-                fishAI = new UniformRandomFishAI();
-            }
-            else {
-                fishAI = new StaticMotionFishAI();
-            }
-            FishMotion currMotion = fishAI.nextMotion();
-            animator.Play(currMotion.motion);
-            motionStartTime = Time.time;
-            motionDuration = currMotion.duration;
-        }
+    void Start() {
+        viewCamera.gameObject.SetActive(isLocalPlayer && !isServer);
+        // FIXME
+        // if (!isLocalPlayer)
+        // {
+        //     // Plug in random fish AI
+        //     int AIIdx = Random.Range(0, 1);
+        //     if (AIIdx == 0) {
+        //         fishAI = new UniformRandomFishAI();
+        //     }
+        //     else {
+        //         fishAI = new StaticMotionFishAI();
+        //     }
+        //     FishMotion currMotion = fishAI.nextMotion();
+        //     // animator.Play(currMotion.motion); // FIXME
+        //     motionStartTime = Time.time;
+        //     motionDuration = currMotion.duration;
+        // }
     }
 
     void OnMouseDown(){
@@ -57,6 +57,7 @@ public class FishController : NetworkBehaviour
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
+            Debug.Log("???");
                 CmdFlop(FlopType.Flop1);
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow))
@@ -76,7 +77,7 @@ public class FishController : NetworkBehaviour
         }
         else
         {
-            executeAIMotion();
+            //executeAIMotion();
         }
     }
 
@@ -85,7 +86,7 @@ public class FishController : NetworkBehaviour
         if (Time.time - motionStartTime >= motionDuration)
         {
             FishMotion currMotion = fishAI.nextMotion();
-            animator.Play(currMotion.motion);
+            //animator.Play(currMotion.motion);// FIXME
             motionStartTime = Time.time;
             motionDuration = currMotion.duration;
         }
@@ -101,19 +102,18 @@ public class FishController : NetworkBehaviour
     void RpcOnFlop (FlopType flopType) {
         switch (flopType) {
         case FlopType.None:
-            animator.Play("Still");
             break;
         case FlopType.Flop1:
-            animator.Play("FishFlop-1");
+            fishAnimator.SetTrigger("Up");
             break;
         case FlopType.Flop2:
-            animator.Play("FishFlop-2");
+            fishAnimator.SetTrigger("Down");
             break;
         case FlopType.Flop3:
-            animator.Play("FishFlop-3");
+            fishAnimator.SetTrigger("Squash");
             break;
         case FlopType.Flop4:
-            animator.Play("FishFlop-4");
+            fishAnimator.SetTrigger("Stretch");
             break;
         }
     }
