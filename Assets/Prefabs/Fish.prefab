@@ -341,7 +341,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1518795358719090
 GameObject:
   m_ObjectHideFlags: 1
@@ -623,6 +623,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4798085454416170}
   - component: {fileID: 114193463760363794}
+  - component: {fileID: 114912599346279610}
   - component: {fileID: 114623996469368942}
   - component: {fileID: 54313262091145842}
   - component: {fileID: 23449282310090780}
@@ -1367,8 +1368,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9123e003c60674584ba8a5e88825f0e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onCuttingBoard: 0
-  fishAnimator: {fileID: 95218032872238942}
   viewCamera: {fileID: 20505363293351868}
 --- !u!114 &114623996469368942
 MonoBehaviour:
@@ -1402,6 +1401,19 @@ MonoBehaviour:
     i15: 198
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &114912599346279610
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1968114230174624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 406d6c8ef88df3f4ea99ad0f77fc0bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fishAnimator: {fileID: 95218032872238942}
+  onCuttingBoard: 0
 --- !u!137 &137210834966916874
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

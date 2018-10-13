@@ -2,11 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum FishMotionType
+{
+    Flop1,
+    Flop2,
+    Flop3,
+    Flop4
+}
+
 public class FishMotion {
 
-    static public string[] predefinedMotions = { "FishFlop-1", "FishFlop-2", "FishFlop-3", "FishFlop-4" };
+    static public FishMotionType[] predefinedMotions = { FishMotionType.Flop1, FishMotionType.Flop2, FishMotionType.Flop3, FishMotionType.Flop4 };
 
-    public string motion;
+    public FishMotionType motion;
     public float duration;
 
     public FishMotion()
