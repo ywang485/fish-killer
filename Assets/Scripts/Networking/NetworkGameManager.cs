@@ -21,6 +21,23 @@ public class NetworkGameManager : NetworkManager {
     public Camera chefCamera;
     public Camera fishCamera;
 
+    public bool cuttingBoardTaken = false;
+    public Transform fishOncuttingBoardTransform;
+
+    public void moveFishToCuttingBoard(GameObject fish) {
+        fish.transform.position = fishOncuttingBoardTransform.position;
+        cuttingBoardTaken = true;
+        fish.GetComponent<FishController>().onCuttingBoard = true;
+        GameObject.FindWithTag("Chef").GetComponent<ChefController>().switchToFishCutting();
+    }
+
+    public void moveFishBackToBasket(GameObject fish) {
+        fish.transform.position = fishSpawningPoint.position;
+        cuttingBoardTaken = false;
+        fish.GetComponent<FishController>().onCuttingBoard = false;
+        GameObject.FindWithTag("Chef").GetComponent<ChefController>().switchToFishSelection();
+    }
+
     public void StopDiscovery () {
         if (discovery != null && discovery.running) {
             discovery.StopBroadcast();

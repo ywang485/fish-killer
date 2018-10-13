@@ -8,6 +8,8 @@ public class ChefController : NetworkBehaviour {
     public const float knifeYPosMax = 3.0f;
     public const float knifeYPosMin = 2.3f;
 
+    public const float fishSelectionActivationBoundary = 50f;
+
     public const float knifeDroppingSpeed = 3f;
     public GameObject knife;
 
@@ -16,6 +18,9 @@ public class ChefController : NetworkBehaviour {
     private float gamePlayAreaTopBoarder;
     private float gamePlayAreaBottomBoarder;
     public Camera viewCamera;
+    private Camera fishBasketCamera;
+
+    private bool fishSelectionMode = false;
 
     private Vector3 knifeRelativePos;
 
@@ -29,6 +34,7 @@ public class ChefController : NetworkBehaviour {
         gamePlayAreaTopBoarder = Screen.height;
 
         viewCamera.gameObject.SetActive(isLocalPlayer);
+        fishBasketCamera = NetworkGameManager.instance.fishCamera;
         Cursor.visible = false;
     }
 
@@ -43,7 +49,35 @@ public class ChefController : NetworkBehaviour {
                 CmdCut();
             }
         }
-        UpdateKnifeTransform();
+        if (!fishSelectionMode) {
+            if (Input.mousePosition.x <= fishSelectionActivationBoundary)
+            {
+                switchToFishSelection();
+            }
+            UpdateKnifeTransform();
+        }
+        if (fishSelectionMode)
+        {
+            if (Input.mousePosition.x >= Screen.width - fishSelectionActivationBoundary)
+            {
+                switchToFishCutting();
+            }
+        }
+
+    }
+
+    public void switchToFishCutting() {
+        viewCamera.gameObject.SetActive(true);
+        fishBasketCamera.gameObject.SetActive(false);
+        fishSelectionMode = false;
+        Cursor.visible = false;
+    }
+
+    public void switchToFishSelection() {
+        viewCamera.gameObject.SetActive(false);
+        fishBasketCamera.gameObject.SetActive(true);
+        fishSelectionMode = true;
+        Cursor.visible = true;
     }
 
     private void UpdateKnifeTransform () {

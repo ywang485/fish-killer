@@ -20,6 +20,8 @@ public class FishController : NetworkBehaviour
     private float motionDuration = 0f;
     private FishAI fishAI;
 
+    public bool onCuttingBoard = false;
+
     void Start()
     {
         fishBody = transform.Find("FishBody").gameObject;
@@ -38,6 +40,14 @@ public class FishController : NetworkBehaviour
             animator.Play(currMotion.motion);
             motionStartTime = Time.time;
             motionDuration = currMotion.duration;
+        }
+    }
+
+    void OnMouseDown(){
+        if(!onCuttingBoard && !NetworkGameManager.instance.cuttingBoardTaken) {
+            NetworkGameManager.instance.moveFishToCuttingBoard(gameObject);
+        } else if (onCuttingBoard) {
+            NetworkGameManager.instance.moveFishBackToBasket(gameObject);
         }
     }
 
