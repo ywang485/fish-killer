@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -333,6 +333,22 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 60761357}
   m_CullTransparentMesh: 0
+--- !u!1 &61504886 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1968114230174624, guid: 893519e05eae647adb54abfb19bbd2c6,
+    type: 2}
+  m_PrefabInternal: {fileID: 1340566395}
+--- !u!114 &61504887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 61504886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e07da22141859fd45b161a2712d4db43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,6 +415,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &292166175 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1968114230174624, guid: 893519e05eae647adb54abfb19bbd2c6,
+    type: 2}
+  m_PrefabInternal: {fileID: 789895550}
+--- !u!114 &292166176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 292166175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e07da22141859fd45b161a2712d4db43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &306192130
 GameObject:
   m_ObjectHideFlags: 0
@@ -701,7 +733,8 @@ Prefab:
       propertyPath: m_Name
       value: Fish (3)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114193463760363794, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &953394411
@@ -884,9 +917,26 @@ Prefab:
       propertyPath: m_Name
       value: Fish (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114193463760363794, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &1087155169 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1968114230174624, guid: 893519e05eae647adb54abfb19bbd2c6,
+    type: 2}
+  m_PrefabInternal: {fileID: 999699620}
+--- !u!114 &1087155170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1087155169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e07da22141859fd45b161a2712d4db43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1088104940
 GameObject:
   m_ObjectHideFlags: 0
@@ -903,7 +953,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &1088104941
 AudioListener:
   m_ObjectHideFlags: 0
@@ -992,6 +1042,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1209822533 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1968114230174624, guid: 893519e05eae647adb54abfb19bbd2c6,
+    type: 2}
+  m_PrefabInternal: {fileID: 1702597986}
+--- !u!114 &1209822534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1209822533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e07da22141859fd45b161a2712d4db43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1277372883
 GameObject:
   m_ObjectHideFlags: 0
@@ -1063,7 +1129,8 @@ Prefab:
       propertyPath: m_Name
       value: Fish (2)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114193463760363794, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &1395392795
@@ -1426,7 +1493,8 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114193463760363794, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &1735276231

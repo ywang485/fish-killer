@@ -18,23 +18,24 @@ public class NetworkGameManager : NetworkManager {
     public GameObject chefPrefab;
     public GameObject fishPrefab;
     public Transform fishSpawningPoint;
-    public Camera chefCamera;
     public Camera fishCamera;
 
     public bool cuttingBoardTaken = false;
     public Transform fishOncuttingBoardTransform;
 
     public void moveFishToCuttingBoard(GameObject fish) {
-        fish.transform.position = fishOncuttingBoardTransform.position;
         cuttingBoardTaken = true;
-        fish.GetComponent<FishController>().onCuttingBoard = true;
+        var fishControl = fish.GetComponent<FishControl>();
+        fishControl.onCuttingBoard = true;
+        fishControl.RpcMoveToBoard(fishOncuttingBoardTransform.position);
         GameObject.FindWithTag("Chef").GetComponent<ChefController>().switchToFishCutting();
     }
 
     public void moveFishBackToBasket(GameObject fish) {
-        fish.transform.position = fishSpawningPoint.position;
         cuttingBoardTaken = false;
-        fish.GetComponent<FishController>().onCuttingBoard = false;
+        var fishControl = fish.GetComponent<FishControl>();
+        fishControl.onCuttingBoard = false;
+        fishControl.RpcMoveTo(fishSpawningPoint.position);
         GameObject.FindWithTag("Chef").GetComponent<ChefController>().switchToFishSelection();
     }
 
@@ -45,9 +46,12 @@ public class NetworkGameManager : NetworkManager {
         }
     }
 
+    // NOTE this function is only called on the host and never on the client
+    // to initialize on the client, put the code in `Start()` or `OnStartClient()` of `FishController`
     public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) {
         GameObject obj;
-        if (conn.address == "localClient") {
+        fishCamera.gameObject.SetActive(false);// temporary
+        if (conn.address == "localClient" && playerControllerId == 0) {
             obj = instantiateGameForChef();
         } else {
             obj = instantiateGameForFish();
@@ -57,13 +61,11 @@ public class NetworkGameManager : NetworkManager {
 
     private GameObject instantiateGameForChef() {
         GameObject obj = Instantiate(chefPrefab);
-        fishCamera.gameObject.SetActive(false);
         return obj;
     }
 
     private GameObject instantiateGameForFish() {
         GameObject obj = Instantiate(fishPrefab, fishSpawningPoint.position, Quaternion.identity);
-        fishCamera.gameObject.SetActive(true);
         return obj;
     }
 }

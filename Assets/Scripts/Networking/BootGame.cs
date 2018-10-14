@@ -35,6 +35,14 @@ public class BootGame : MonoBehaviour {
         }).OnError(Debug.LogError).OnFinally(() => connectingHint.SetActive(false));
     }
 
+    void Update () {
+        // NOTE press '-' key to add a fish locally for testing
+        if (Input.GetKeyDown(KeyCode.Minus)) {
+            Debug.Log("Join a local fish");
+            UnityEngine.Networking.ClientScene.AddPlayer(1);
+        }
+    }
+
     void OnApplicationQuit () {
         if (lobby != null) {
             lobby.Leave();
