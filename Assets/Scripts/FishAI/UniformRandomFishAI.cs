@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class UniformRandomFishAI : FishAI
 {
-    static public float maxSingleMotionDuration = 2.0f;
-    static public float minSingleMotionDuration = 0.1f;
+    static public float maxSingleMotionDuration = 1.0f;
+    static public float minSingleMotionDuration = 0.05f;
 
     void FishAI.inputData() {
     }

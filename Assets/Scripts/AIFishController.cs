@@ -19,9 +19,11 @@ public class AIFishController : NetworkBehaviour {
             int AIIdx = Random.Range(0, 1);
             if (AIIdx == 0) {
                 fishAI = new UniformRandomFishAI();
+                Debug.Log("Uniform random fish AI set.");
             }
             else {
                 fishAI = new StaticMotionFishAI();
+                Debug.Log("Static motion fish AI set.");
             }
             FishMotion currMotion = fishAI.nextMotion();
             control.RpcOnFlop(currMotion.motion);
