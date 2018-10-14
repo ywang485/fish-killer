@@ -14,7 +14,7 @@ public class AIFishController : NetworkBehaviour {
     }
 
     void Start () {
-        if (isServer) {
+        if (!GetComponent<NetworkIdentity>().localPlayerAuthority) {
             // Plug in random fish AI
             int AIIdx = Random.Range(0, 1);
             if (AIIdx == 0) {
@@ -36,12 +36,15 @@ public class AIFishController : NetworkBehaviour {
 
     private void executeAIMotion()
     {
-        if (Time.time - motionStartTime >= motionDuration)
+        if (!GetComponent<NetworkIdentity>().localPlayerAuthority)
         {
-            FishMotion currMotion = fishAI.nextMotion();
-            control.RpcOnFlop(currMotion.motion);
-            motionStartTime = Time.time;
-            motionDuration = currMotion.duration;
+            if (Time.time - motionStartTime >= motionDuration)
+            {
+                FishMotion currMotion = fishAI.nextMotion();
+                control.RpcOnFlop(currMotion.motion);
+                motionStartTime = Time.time;
+                motionDuration = currMotion.duration;
+            }
         }
     }
 }

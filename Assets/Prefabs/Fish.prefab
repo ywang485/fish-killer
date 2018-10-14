@@ -381,6 +381,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4401019376568400}
   - component: {fileID: 95218032872238942}
+  - component: {fileID: 54324991026843290}
+  - component: {fileID: 65137918297252514}
   m_Layer: 0
   m_Name: fish
   m_TagString: Untagged
@@ -625,9 +627,7 @@ GameObject:
   - component: {fileID: 114193463760363794}
   - component: {fileID: 114912599346279610}
   - component: {fileID: 114623996469368942}
-  - component: {fileID: 54313262091145842}
   - component: {fileID: 23449282310090780}
-  - component: {fileID: 65816801451204178}
   m_Layer: 0
   m_Name: Fish
   m_TagString: Fish
@@ -1140,7 +1140,7 @@ Transform:
   m_GameObject: {fileID: 1968114230174624}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.08, y: 3.46, z: 0.021}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_Children:
   - {fileID: 4401019376568400}
   - {fileID: 4123855186553058}
@@ -1312,12 +1312,12 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!54 &54313262091145842
+--- !u!54 &54324991026843290
 Rigidbody:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1968114230174624}
+  m_GameObject: {fileID: 1538002209286476}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -1327,17 +1327,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65816801451204178
+--- !u!65 &65137918297252514
 BoxCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1968114230174624}
+  m_GameObject: {fileID: 1538002209286476}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.37, y: 0.07, z: 0.17}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &95218032872238942
 Animator:

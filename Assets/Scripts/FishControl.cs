@@ -34,4 +34,17 @@ public class FishControl : NetworkBehaviour {
         transform.position = pos;
     }
 
+    [ServerCallback]
+    void OnMouseDown()
+    {
+        Debug.Log("Fish " + gameObject.name + " clicked.");
+        if (onCuttingBoard && !NetworkGameManager.instance.cuttingBoardTaken)
+        {
+            NetworkGameManager.instance.moveFishToCuttingBoard(gameObject);
+        }
+        else if (onCuttingBoard)
+        {
+            NetworkGameManager.instance.moveFishBackToBasket(gameObject);
+        }
+    }
 }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -715,7 +715,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4798085454416170, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.36062184
       objectReference: {fileID: 0}
     - target: {fileID: 4798085454416170, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
       propertyPath: m_LocalRotation.z
@@ -723,7 +723,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4798085454416170, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.93271214
       objectReference: {fileID: 0}
     - target: {fileID: 4798085454416170, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
       propertyPath: m_RootOrder
@@ -732,6 +732,25 @@ Prefab:
     - target: {fileID: 1968114230174624, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
       propertyPath: m_Name
       value: Fish (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114623996469368942, guid: 893519e05eae647adb54abfb19bbd2c6,
+        type: 2}
+      propertyPath: m_LocalPlayerAuthority
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4798085454416170, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -42.277
+      objectReference: {fileID: 0}
+    - target: {fileID: 65504282056795906, guid: 893519e05eae647adb54abfb19bbd2c6,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 65137918297252514, guid: 893519e05eae647adb54abfb19bbd2c6,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114193463760363794, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
@@ -899,7 +918,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4798085454416170, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.26068032
       objectReference: {fileID: 0}
     - target: {fileID: 4798085454416170, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
       propertyPath: m_LocalRotation.z
@@ -907,7 +926,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4798085454416170, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.96542525
       objectReference: {fileID: 0}
     - target: {fileID: 4798085454416170, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
       propertyPath: m_RootOrder
@@ -916,6 +935,15 @@ Prefab:
     - target: {fileID: 1968114230174624, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
       propertyPath: m_Name
       value: Fish (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114623996469368942, guid: 893519e05eae647adb54abfb19bbd2c6,
+        type: 2}
+      propertyPath: m_LocalPlayerAuthority
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4798085454416170, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -30.221
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114193463760363794, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
@@ -1111,7 +1139,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4798085454416170, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.65844524
       objectReference: {fileID: 0}
     - target: {fileID: 4798085454416170, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
       propertyPath: m_LocalRotation.z
@@ -1119,7 +1147,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4798085454416170, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7526287
       objectReference: {fileID: 0}
     - target: {fileID: 4798085454416170, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
       propertyPath: m_RootOrder
@@ -1128,6 +1156,15 @@ Prefab:
     - target: {fileID: 1968114230174624, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
       propertyPath: m_Name
       value: Fish (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114623996469368942, guid: 893519e05eae647adb54abfb19bbd2c6,
+        type: 2}
+      propertyPath: m_LocalPlayerAuthority
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4798085454416170, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 82.36301
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114193463760363794, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
@@ -1479,7 +1516,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4798085454416170, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.40606388
       objectReference: {fileID: 0}
     - target: {fileID: 4798085454416170, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
       propertyPath: m_LocalRotation.z
@@ -1487,11 +1524,20 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4798085454416170, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9138447
       objectReference: {fileID: 0}
     - target: {fileID: 4798085454416170, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114623996469368942, guid: 893519e05eae647adb54abfb19bbd2c6,
+        type: 2}
+      propertyPath: m_LocalPlayerAuthority
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4798085454416170, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 47.916004
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114193463760363794, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}

@@ -17,15 +17,6 @@ public class PlayerFishController : NetworkBehaviour
         viewCamera.gameObject.SetActive(isLocalPlayer && !isServer);
     }
 
-    [ServerCallback]
-    void OnMouseDown(){
-        if(!control.onCuttingBoard && !NetworkGameManager.instance.cuttingBoardTaken) {
-            NetworkGameManager.instance.moveFishToCuttingBoard(gameObject);
-        } else if (control.onCuttingBoard) {
-            NetworkGameManager.instance.moveFishBackToBasket(gameObject);
-        }
-    }
-
     void Update()
     {
         if (isLocalPlayer)
