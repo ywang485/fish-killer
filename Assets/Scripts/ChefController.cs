@@ -62,8 +62,27 @@ public class ChefController : NetworkBehaviour {
             {
                 switchToFishCutting();
             }
+            if (Input.GetMouseButtonDown(0))
+            {
+                RaycastHit hit;
+                Ray ray = fishBasketCamera.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out hit, 1000.0f))
+                {
+                    if (hit.collider.transform.parent.CompareTag("Fish"))
+                    {
+                        FishControl fish = hit.collider.transform.parent.gameObject.GetComponent<FishControl>();
+                        if (!fish.onCuttingBoard && !NetworkGameManager.instance.cuttingBoardTaken)
+                        {
+                            NetworkGameManager.instance.moveFishToCuttingBoard(fish.gameObject);
+                        }
+                        else if (fish.onCuttingBoard)
+                        {
+                            NetworkGameManager.instance.moveFishBackToBasket(fish.gameObject);
+                        }
+                    }
+                }
+            }
         }
-
     }
 
     public void switchToFishCutting() {
