@@ -85,6 +85,8 @@ public class ChefController : NetworkBehaviour {
         }
     }
 
+
+
     public void switchToFishCutting() {
         viewCamera.gameObject.SetActive(true);
         fishBasketCamera.gameObject.SetActive(false);

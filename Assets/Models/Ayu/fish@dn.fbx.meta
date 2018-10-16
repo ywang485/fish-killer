@@ -121,7 +121,7 @@ ModelImporter:
       name: dn
       takeName: '@dn'
       firstFrame: 0
-      lastFrame: 10
+      lastFrame: 5
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

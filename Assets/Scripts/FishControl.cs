@@ -5,6 +5,14 @@ public class FishControl : NetworkBehaviour {
 
     public Animator fishAnimator;
     public bool onCuttingBoard = false;
+    public GameObject brokenModel;
+    public GameObject normalModel;
+
+    [ClientRpc]
+    public void RpcFishBreak() {
+        normalModel.SetActive(false);
+        brokenModel.SetActive(true);
+    }
 
     [ClientRpc]
     public void RpcOnFlop (FishMotionType flopType) {
