@@ -11,7 +11,6 @@ public class ChefController : NetworkBehaviour {
     public const float fishSelectionActivationBoundary = 50f;
 
     public const float knifeDroppingSpeed = 3f;
-    public GameObject knife;
 
     private float gamePlayAreaLeftBoarder;
     private float gamePlayAreaRightBoarder;
@@ -26,6 +25,7 @@ public class ChefController : NetworkBehaviour {
 
     [SyncVar]
     private Vector2 knifePosition;
+    public Animator chefAnimator;
 
     void Start () {
         gamePlayAreaLeftBoarder = 0f;
@@ -43,41 +43,40 @@ public class ChefController : NetworkBehaviour {
     }
 
     void Update() {
-        if (isServer) { // NOTE Chef is always on the server
+        if (isLocalPlayer) {
             if (Input.GetMouseButtonUp(0))
             {
                 CmdCut();
             }
-        }
-        if (!fishSelectionMode) {
-            if (Input.mousePosition.x <= fishSelectionActivationBoundary)
-            {
-                switchToFishSelection();
-            }
-            UpdateKnifeTransform();
-        }
-        if (fishSelectionMode)
-        {
-            if (Input.mousePosition.x >= Screen.width - fishSelectionActivationBoundary)
-            {
-                switchToFishCutting();
-            }
-            if (Input.GetMouseButtonDown(0))
-            {
-                RaycastHit hit;
-                Ray ray = fishBasketCamera.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out hit, 1000.0f))
+            if (!fishSelectionMode) {
+                if (Input.mousePosition.x <= fishSelectionActivationBoundary)
                 {
-                    if (hit.collider.transform.parent.CompareTag("Fish"))
+                    switchToFishSelection();
+                }
+            }
+            if (fishSelectionMode)
+            {
+                if (Input.mousePosition.x >= Screen.width - fishSelectionActivationBoundary)
+                {
+                    switchToFishCutting();
+                }
+                if (Input.GetMouseButtonDown(0))
+                {
+                    RaycastHit hit;
+                    Ray ray = fishBasketCamera.ScreenPointToRay(Input.mousePosition);
+                    if (Physics.Raycast(ray, out hit, 1000.0f))
                     {
-                        FishControl fish = hit.collider.transform.parent.gameObject.GetComponent<FishControl>();
-                        if (!fish.onCuttingBoard && !NetworkGameManager.instance.cuttingBoardTaken)
+                        if (hit.collider.transform.parent.CompareTag("Fish"))
                         {
-                            NetworkGameManager.instance.moveFishToCuttingBoard(fish.gameObject);
-                        }
-                        else if (fish.onCuttingBoard)
-                        {
-                            NetworkGameManager.instance.moveFishBackToBasket(fish.gameObject);
+                            FishControl fish = hit.collider.transform.parent.gameObject.GetComponent<FishControl>();
+                            if (!fish.onCuttingBoard && !NetworkGameManager.instance.cuttingBoardTaken)
+                            {
+                                NetworkGameManager.instance.moveFishToCuttingBoard(fish.gameObject);
+                            }
+                            else if (fish.onCuttingBoard)
+                            {
+                                NetworkGameManager.instance.moveFishBackToBasket(fish.gameObject);
+                            }
                         }
                     }
                 }
@@ -101,11 +100,6 @@ public class ChefController : NetworkBehaviour {
         Cursor.visible = true;
     }
 
-    private void UpdateKnifeTransform () {
-        var chefRotation = Quaternion.Euler(transform.eulerAngles.x, viewCamera.transform.eulerAngles.y, viewCamera.transform.eulerAngles.z);
-        transform.rotation = chefRotation;
-    }
-
     [Command]
     void CmdCut () {
         RpcOnCut();
@@ -113,7 +107,6 @@ public class ChefController : NetworkBehaviour {
 
     [ClientRpc]
     void RpcOnCut () {
-        Animator animator = knife.GetComponentInChildren<Animator>();
-        animator.Play("KnifeDown");
+        chefAnimator.SetTrigger("Cut");
     }
 }
