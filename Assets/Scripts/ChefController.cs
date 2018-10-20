@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
+using Rewired;
 
 public class ChefController : NetworkBehaviour {
 
@@ -21,11 +22,9 @@ public class ChefController : NetworkBehaviour {
 
     private bool fishSelectionMode = false;
 
-    private Vector3 knifeRelativePos;
-
-    [SyncVar]
-    private Vector2 knifePosition;
     public Animator chefAnimator;
+    [SyncVar(hook="OnKnifePosYChanged")]
+    private float knifePosY;
 
     void Start () {
         gamePlayAreaLeftBoarder = 0f;
@@ -44,6 +43,10 @@ public class ChefController : NetworkBehaviour {
 
     void Update() {
         if (isLocalPlayer) {
+            var knifeVerticalInput = ReInput.players.SystemPlayer.GetAxis("Knife Vertical");
+            if (Mathf.Abs(knifeVerticalInput) > Mathf.Epsilon) {
+                knifePosY = Mathf.Clamp01(knifePosY + 0.02f * knifeVerticalInput);
+            }
             if (Input.GetMouseButtonUp(0))
             {
                 CmdCut();
@@ -110,5 +113,9 @@ public class ChefController : NetworkBehaviour {
     [ClientRpc]
     void RpcOnCut () {
         chefAnimator.SetTrigger("Cut");
+    }
+
+    void OnKnifePosYChanged (float posY) {
+        chefAnimator.SetFloat("Idle Blend", posY);
     }
 }
