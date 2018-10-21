@@ -17,7 +17,7 @@ public class Knife : MonoBehaviour
 
     }
 
-    void OnTriggerEnter(Collision c) {
+    void OnTriggerEnter(Collider c) {
         Debug.Log("Trigger Entered!");
         if (c.transform.parent.CompareTag("Fish")) {
             Debug.Log("Fish Cut!");
