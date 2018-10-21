@@ -1602,7 +1602,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fishAnimator: {fileID: 95218032872238942}
-  onCuttingBoard: 0
   brokenModel: {fileID: 1084559754260102}
   normalModel: {fileID: 0}
 --- !u!137 &137210834966916874

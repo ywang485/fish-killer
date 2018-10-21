@@ -47,10 +47,6 @@ public class ChefController : NetworkBehaviour {
             if (Mathf.Abs(knifeVerticalInput) > Mathf.Epsilon) {
                 knifePosY = Mathf.Clamp01(knifePosY + 0.02f * knifeVerticalInput);
             }
-            if (Input.GetMouseButtonUp(0))
-            {
-                CmdCut();
-            }
             if (!fishSelectionMode) {
                 if (Input.mousePosition.x <= fishSelectionActivationBoundary)
                 {
@@ -92,6 +88,10 @@ public class ChefController : NetworkBehaviour {
                         }
                     }
                 }
+            } else {
+                if (Input.GetMouseButtonDown(0)) {
+                    CmdCut();
+                }
             }
         }
     }
@@ -114,7 +114,11 @@ public class ChefController : NetworkBehaviour {
     [Command]
     void CmdCut () {
         RpcOnCut();
-        // TODO fish get killed
+    }
+
+    [ServerCallback]
+    public void OnKnifeDown () {
+        GameController.instance.fishOnBoard?.OnCut();
     }
 
     [ClientRpc]

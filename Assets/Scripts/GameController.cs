@@ -56,15 +56,22 @@ public class GameController : NetworkBehaviour {
     [Server]
     public void moveFishToCuttingBoard(FishControl fish) {
         fishOnBoard = fish;
-        fish.onCuttingBoard = true;
         fish.RpcMoveToBoard(fishOnCuttingBoardTransform.position);
     }
 
     [Server]
     public void moveFishBackToBasket(FishControl fish) {
         fishOnBoard = null;
-        fish.onCuttingBoard = false;
         fish.RpcMoveTo(fishSpawnPoint.position);
+    }
+
+    public void OnFishKilled (FishControl fish) {
+        if (fishOnBoard == fish) fishOnBoard = null;
+        fishList.Remove(fish);
+        fishToCut--;
+        if (fishToCut == 0) {
+            // TODO game over, show score
+        }
     }
 
     [ServerCallback] // TODO might also show gui on clients (fish view)

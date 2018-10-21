@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 public class FishControl : NetworkBehaviour {
 
     public Animator fishAnimator;
-    public bool onCuttingBoard = false;
+    public bool onCuttingBoard => GameController.instance.fishOnBoard == this;
     public GameObject brokenModel;
     public GameObject normalModel;
 
@@ -40,5 +40,19 @@ public class FishControl : NetworkBehaviour {
     [ClientRpc]
     public void RpcMoveTo (Vector3 pos) {
         transform.position = pos;
+    }
+
+    [Server]
+    public void OnCut () {
+        RpcOnCut();
+        GameController.instance.OnFishKilled(this);
+    }
+
+    [ClientRpc]
+    private void RpcOnCut () {
+        fishAnimator.Play("Cut");
+        if (GetComponent<PlayerFishController>() != null) {
+            // TODO show bloody fx
+        }
     }
 }
