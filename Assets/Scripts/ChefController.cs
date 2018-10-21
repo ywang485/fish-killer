@@ -33,7 +33,7 @@ public class ChefController : NetworkBehaviour {
         gamePlayAreaTopBoarder = Screen.height;
 
         viewCamera.gameObject.SetActive(isLocalPlayer);
-        fishBasketCamera = NetworkGameManager.instance.fishCamera;
+        fishBasketCamera = GameController.instance.basketCamera;
         Cursor.visible = false;
     }
 
@@ -57,6 +57,11 @@ public class ChefController : NetworkBehaviour {
                     switchToFishSelection();
                 }
             }
+            // for testing
+            if (Input.GetKeyDown(KeyCode.N)) {
+                GameController.instance.NextFish();
+            }
+            // end testing
             if (fishSelectionMode)
             {
                 if (Input.mousePosition.x >= Screen.width - fishSelectionActivationBoundary)
@@ -74,13 +79,15 @@ public class ChefController : NetworkBehaviour {
                         if (hit.collider.transform.CompareTag("Fish"))
                         {
                             FishControl fish = hit.collider.gameObject.GetComponent<FishControl>();
-                            if (!fish.onCuttingBoard && !NetworkGameManager.instance.cuttingBoardTaken)
+                            if (!fish.onCuttingBoard && !GameController.instance.cuttingBoardTaken)
                             {
-                                NetworkGameManager.instance.moveFishToCuttingBoard(fish.gameObject);
+                                GameController.instance.moveFishToCuttingBoard(fish);
+                                switchToFishCutting();
                             }
                             else if (fish.onCuttingBoard)
                             {
-                                NetworkGameManager.instance.moveFishBackToBasket(fish.gameObject);
+                                GameController.instance.moveFishBackToBasket(fish);
+                                switchToFishSelection();
                             }
                         }
                     }
@@ -88,7 +95,6 @@ public class ChefController : NetworkBehaviour {
             }
         }
     }
-
 
 
     public void switchToFishCutting() {
@@ -108,6 +114,7 @@ public class ChefController : NetworkBehaviour {
     [Command]
     void CmdCut () {
         RpcOnCut();
+        // TODO fish get killed
     }
 
     [ClientRpc]

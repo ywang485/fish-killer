@@ -11,7 +11,7 @@ public class BootGame : MonoBehaviour {
     private ILobby lobby;
 
     void Start () {
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
         GameObject.DontDestroyOnLoad(gameObject);
         // check if a lobby exists
         // if no, host the game and spawn as the killer

@@ -32,6 +32,7 @@ public class AIFishController : NetworkBehaviour {
         }
     }
 
+    [ServerCallback]
     void Update () {
         executeAIMotion();
     }
