@@ -15,6 +15,7 @@ public class Knife : MonoBehaviour
     void Update()
     {
 
+
     }
 
     void OnTriggerEnter(Collider c ) {

@@ -38,7 +38,7 @@ public class ChefController : NetworkBehaviour {
         gamePlayAreaTopBoarder = Screen.height;
 
         viewCamera.gameObject.SetActive(isLocalPlayer);
-        fishBasketCamera = NetworkGameManager.instance.fishCamera;
+        fishBasketCamera = GameController.instance.basketCamera;
         Cursor.visible = false;
 
         audioSrc = GetComponent<AudioSource>();
@@ -54,16 +54,17 @@ public class ChefController : NetworkBehaviour {
             if (Mathf.Abs(knifeVerticalInput) > Mathf.Epsilon) {
                 knifePosY = Mathf.Clamp01(knifePosY + 0.02f * knifeVerticalInput);
             }
-            if (Input.GetMouseButtonUp(0))
-            {
-                CmdCut();
-            }
             if (!fishSelectionMode) {
                 if (Input.mousePosition.x <= fishSelectionActivationBoundary)
                 {
                     switchToFishSelection();
                 }
             }
+            // for testing
+            if (Input.GetKeyDown(KeyCode.N)) {
+                GameController.instance.NextFish();
+            }
+            // end testing
             if (fishSelectionMode)
             {
                 if (Input.mousePosition.x >= Screen.width - fishSelectionActivationBoundary)
@@ -80,21 +81,26 @@ public class ChefController : NetworkBehaviour {
                         if (hit.collider.transform.CompareTag("Fish"))
                         {
                             FishControl fish = hit.collider.gameObject.GetComponent<FishControl>();
-                            if (!fish.onCuttingBoard && !NetworkGameManager.instance.cuttingBoardTaken)
+                            if (!fish.onCuttingBoard && !GameController.instance.cuttingBoardTaken)
                             {
-                                NetworkGameManager.instance.moveFishToCuttingBoard(fish.gameObject);
+                                GameController.instance.moveFishToCuttingBoard(fish);
+                                switchToFishCutting();
                             }
                             else if (fish.onCuttingBoard)
                             {
-                                NetworkGameManager.instance.moveFishBackToBasket(fish.gameObject);
+                                GameController.instance.moveFishBackToBasket(fish);
+                                switchToFishSelection();
                             }
                         }
                     }
                 }
+            } else {
+                if (Input.GetMouseButtonDown(0)) {
+                    CmdCut();
+                }
             }
         }
     }
-
 
 
     public void switchToFishCutting() {
@@ -115,6 +121,11 @@ public class ChefController : NetworkBehaviour {
     void CmdCut () {
         RpcOnCut();
         audioSrc.PlayOneShot(Resources.Load(knifeSwooshSFX) as AudioClip);
+    }
+
+    [ServerCallback]
+    public void OnKnifeDown () {
+        GameController.instance.fishOnBoard?.OnCut();
     }
 
     [ClientRpc]
