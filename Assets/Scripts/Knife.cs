@@ -17,8 +17,7 @@ public class Knife : MonoBehaviour
 
     }
 
-    void OnTriggerEnter(Collision c) {
-        Debug.Log("Trigger Entered!");
+    void OnTriggerEnter(Collider c ) {
         if (c.transform.parent.CompareTag("Fish")) {
             Debug.Log("Fish Cut!");
             FishControl fc = c.gameObject.GetComponent<FishControl>();

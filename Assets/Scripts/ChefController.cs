@@ -4,6 +4,9 @@ using Rewired;
 
 public class ChefController : NetworkBehaviour {
 
+    private const string knifeSwooshSFX = "SFX/knife_swoosh";
+    private const string knifeCutSFX = "SFX/knife_cut";
+
     public const float knifeXPosMin = -1f;
     public const float knifeXPosMax = 1f;
     public const float knifeYPosMax = 3.0f;
@@ -20,6 +23,8 @@ public class ChefController : NetworkBehaviour {
     public Camera viewCamera;
     private Camera fishBasketCamera;
 
+    [HideInInspector] public AudioSource audioSrc;
+
     private bool fishSelectionMode = false;
 
     public Animator chefAnimator;
@@ -35,6 +40,8 @@ public class ChefController : NetworkBehaviour {
         viewCamera.gameObject.SetActive(isLocalPlayer);
         fishBasketCamera = NetworkGameManager.instance.fishCamera;
         Cursor.visible = false;
+
+        audioSrc = GetComponent<AudioSource>();
     }
 
     public override void OnStartServer () {
@@ -70,7 +77,6 @@ public class ChefController : NetworkBehaviour {
                     Ray ray = fishBasketCamera.ScreenPointToRay(Input.mousePosition);
                     if (Physics.Raycast(ray, out hit, 1000.0f))
                     {
-                        Debug.Log("Clicked something!");
                         if (hit.collider.transform.CompareTag("Fish"))
                         {
                             FishControl fish = hit.collider.gameObject.GetComponent<FishControl>();
@@ -108,6 +114,7 @@ public class ChefController : NetworkBehaviour {
     [Command]
     void CmdCut () {
         RpcOnCut();
+        audioSrc.PlayOneShot(Resources.Load(knifeSwooshSFX) as AudioClip);
     }
 
     [ClientRpc]
