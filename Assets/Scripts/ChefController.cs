@@ -4,9 +4,6 @@ using Rewired;
 
 public class ChefController : NetworkBehaviour {
 
-    private const string knifeSwooshSFX = "SFX/knife_swoosh";
-    private const string knifeCutSFX = "SFX/knife_cut";
-
     public const float knifeXPosMin = -1f;
     public const float knifeXPosMax = 1f;
     public const float knifeYPosMax = 3.0f;
@@ -120,7 +117,7 @@ public class ChefController : NetworkBehaviour {
     [Command]
     void CmdCut () {
         RpcOnCut();
-        audioSrc.PlayOneShot(Resources.Load(knifeSwooshSFX) as AudioClip);
+        audioSrc.PlayOneShot(Resources.Load(ResourceLib.knifeSwooshSFX) as AudioClip);
     }
 
     [ServerCallback]

@@ -2429,8 +2429,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftBound: -80
   rightBound: 60
-  upBound: 30
-  downBound: -75
+  upBound: -30
+  downBound: -80
 --- !u!114 &114723421987698532
 MonoBehaviour:
   m_ObjectHideFlags: 1

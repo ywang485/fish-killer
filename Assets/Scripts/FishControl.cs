@@ -7,6 +7,12 @@ public class FishControl : NetworkBehaviour {
     public bool onCuttingBoard => GameController.instance.fishOnBoard == this;
     public GameObject brokenModel;
     public GameObject normalModel;
+    [HideInInspector] AudioSource audioSrc;
+
+    void Start()
+    {
+        audioSrc = GetComponent<AudioSource>();
+    }
 
     [ClientRpc]
     public void RpcFishBreak() {
@@ -51,6 +57,7 @@ public class FishControl : NetworkBehaviour {
     [ClientRpc]
     private void RpcOnCut () {
         fishAnimator.Play("Cut");
+        audioSrc.PlayOneShot(Resources.Load(ResourceLib.knifeCutSFX) as AudioClip);
         if (GetComponent<PlayerFishController>() != null) {
             // TODO show bloody fx
         }
