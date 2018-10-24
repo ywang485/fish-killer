@@ -32,8 +32,9 @@ public class ChefController : NetworkBehaviour {
         audioSrc = GetComponent<AudioSource>();
     }
 
-    public override void OnStartServer () {
-        base.OnStartServer();
+    public override void OnStartClient () {
+        base.OnStartClient();
+        GameController.instance.chefScreen.SetActive(true);
     }
 
     void Update() {

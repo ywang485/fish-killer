@@ -64,6 +64,7 @@ public class FishControl : NetworkBehaviour {
     [Client]
     public void OnMercied () {
         fishAnimator.Play("Mercied");
+        GetComponent<Collider>().enabled = false;
         DOVirtual.DelayedCall(10, () => NetworkServer.Destroy(gameObject));
     }
 }

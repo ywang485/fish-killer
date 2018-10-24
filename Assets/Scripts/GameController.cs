@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Collections.Generic;
 using System.Collections;
@@ -15,6 +16,8 @@ public class GameController : NetworkBehaviour {
     }
     static private GameController _instance;
 
+    public GameObject chefScreen;
+
     public GameObject aiFishPrefab;
     public Transform fishSpawnPoint;
     public int generatedAIFishCount;
@@ -24,8 +27,11 @@ public class GameController : NetworkBehaviour {
     public bool cuttingBoardTaken => fishOnBoard != null;
     public Camera basketCamera;
     public Transform fishOnCuttingBoardTransform;
+    public Text scoreTextUI;
     /// the more the worse
-    private int score = 0;
+    private int allMercied = 0;
+    private int wrongCut = 0;
+    private int correctMercy = 0;
 
     void Awake () {
         fishToCut = generatedAIFishCount;
@@ -37,7 +43,10 @@ public class GameController : NetworkBehaviour {
     }
 
     private IEnumerator OnGameStart () {
-        score = 0;
+        allMercied = 0;
+        correctMercy = 0;
+        wrongCut = 0;
+
         for (int i = 0; i < generatedAIFishCount; ++i) {
             var aiFish = Instantiate(aiFishPrefab, fishSpawnPoint.position + 0.2f * i * Vector3.up, Quaternion.Euler(0, Random.Range(0, 360), 0));
             NetworkServer.Spawn(aiFish);
@@ -48,6 +57,12 @@ public class GameController : NetworkBehaviour {
         yield return null;
         // NOTE wait till local player is ready
         moveFishToCuttingBoard(fishList[0]);
+    }
+
+    void Update () {
+        if (isServer) {
+            scoreTextUI.text = $"{fishToCut} more fishes to kill | {allMercied} are mercied.";
+        }
     }
 
     [Server]
@@ -80,7 +95,7 @@ public class GameController : NetworkBehaviour {
         if (fish.GetComponent<AIFishController>() != null) {
             fishToCut--;
         } else {
-            score += 10;
+            wrongCut++;
         }
         if (fishToCut > 0) {
            if (fishList.Count > 0) {
@@ -97,11 +112,7 @@ public class GameController : NetworkBehaviour {
         if (fishList.Count > 0) {
             moveFishToCuttingBoard(fishList[0]);
         }
-        score++;
-    }
-
-    [ServerCallback] // TODO might also show gui on clients (fish view)
-    void OnGUI () {
-        GUI.Label(new Rect(20, 20, 300, 80), $"{fishToCut} more fishes to kill | score: -{score}");
+        if (fish.GetComponent<PlayerFishController>() != null) correctMercy++;
+        allMercied++;
     }
 }
