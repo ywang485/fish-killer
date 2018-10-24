@@ -17,11 +17,12 @@ public class GameController : NetworkBehaviour {
     static private GameController _instance;
 
     public GameObject chefScreen;
+    public ScoreScreen finalScoreScreen;
 
     public GameObject aiFishPrefab;
     public Transform fishSpawnPoint;
     public int generatedAIFishCount;
-    public int fishToCut { get; private set; } // reserved if fishToCut might not be designed as the count of AI fishes
+    public int fishToKill { get; private set; } // reserved if fishToCut might not be designed as the count of AI fishes
     public List<FishControl> fishList { get; } = new List<FishControl>();
     public FishControl fishOnBoard { get; private set; }
     public bool cuttingBoardTaken => fishOnBoard != null;
@@ -29,12 +30,13 @@ public class GameController : NetworkBehaviour {
     public Transform fishOnCuttingBoardTransform;
     public Text scoreTextUI;
     /// the more the worse
-    private int allMercied = 0;
-    private int wrongCut = 0;
-    private int correctMercy = 0;
+    public int fishKilled { get; private set; }
+    public int allFishMercied { get; private set; }
+    public int playersKilled { get; private set; }
+    public int playersMercied { get; private set; }
 
     void Awake () {
-        fishToCut = generatedAIFishCount;
+        fishToKill = generatedAIFishCount;
     }
 
     public override void OnStartServer () {
@@ -43,9 +45,10 @@ public class GameController : NetworkBehaviour {
     }
 
     private IEnumerator OnGameStart () {
-        allMercied = 0;
-        correctMercy = 0;
-        wrongCut = 0;
+        fishKilled = 0;
+        allFishMercied = 0;
+        playersMercied = 0;
+        playersKilled = 0;
 
         for (int i = 0; i < generatedAIFishCount; ++i) {
             SpawnAIFish(0.2f * i * Vector3.up);
@@ -65,7 +68,7 @@ public class GameController : NetworkBehaviour {
 
     void Update () {
         if (isServer) {
-            scoreTextUI.text = $"{fishToCut} more fishes to kill | {allMercied} are mercied.";
+            scoreTextUI.text = $"{fishToKill} more fishes to kill | {allFishMercied} are mercied.";
         }
     }
 
@@ -102,18 +105,21 @@ public class GameController : NetworkBehaviour {
 
     public void OnFishKilled (FishControl fish) {
         if (fishOnBoard == fish) fishOnBoard = null;
-        if (fish.GetComponent<AIFishController>() != null) {
-            fishToCut--;
-        } else {
-            wrongCut++;
-        }
         RemoveFishFromList(fish);
-        if (fishToCut > 0) {
-           if (fishList.Count > 0) {
-               moveFishToCuttingBoard(fishList[0]);
-           }
+        fishKilled++;
+        if (fish.GetComponent<AIFishController>() != null) {
+            fishToKill--;
+
+            if (fishToKill > 0) {
+               if (fishList.Count > 0) {
+                   moveFishToCuttingBoard(fishList[0]);
+               }
+            } else {
+                GameOver(true);
+            }
         } else {
-            // TODO game over, show score
+            GameOver(false);
+            playersKilled++;
         }
     }
 
@@ -123,7 +129,12 @@ public class GameController : NetworkBehaviour {
         if (fishList.Count > 0) {
             moveFishToCuttingBoard(fishList[0]);
         }
-        if (fish.GetComponent<PlayerFishController>() != null) correctMercy++;
-        allMercied++;
+        if (fish.GetComponent<PlayerFishController>() != null) playersMercied++;
+        allFishMercied++;
+    }
+
+    private void GameOver (bool success) {
+        finalScoreScreen.gameObject.SetActive(true);
+        finalScoreScreen.Show(this, success);
     }
 }
