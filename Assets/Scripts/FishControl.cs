@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Networking;
+using DG.Tweening;
 
 public class FishControl : NetworkBehaviour {
 
@@ -39,11 +40,6 @@ public class FishControl : NetworkBehaviour {
     }
 
     [ClientRpc]
-    public void RpcMoveToBoard (Vector3 pos) {
-        transform.position = pos;
-    }
-
-    [ClientRpc]
     public void RpcMoveTo (Vector3 pos) {
         transform.position = pos;
     }
@@ -52,6 +48,7 @@ public class FishControl : NetworkBehaviour {
     public void OnCut () {
         RpcOnCut();
         GameController.instance.OnFishKilled(this);
+        DOVirtual.DelayedCall(10, () => NetworkServer.Destroy(gameObject));
     }
 
     [ClientRpc]
@@ -61,5 +58,12 @@ public class FishControl : NetworkBehaviour {
         if (GetComponent<PlayerFishController>() != null) {
             // TODO show bloody fx
         }
+        GetComponent<Collider>().enabled = false;
+    }
+
+    [Client]
+    public void OnMercied () {
+        fishAnimator.Play("Mercied");
+        DOVirtual.DelayedCall(10, () => NetworkServer.Destroy(gameObject));
     }
 }

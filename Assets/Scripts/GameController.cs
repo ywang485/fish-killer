@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections.Generic;
+using System.Collections;
 
 /// This class deals with game-specific logict
 public class GameController : NetworkBehaviour {
@@ -23,6 +24,8 @@ public class GameController : NetworkBehaviour {
     public bool cuttingBoardTaken => fishOnBoard != null;
     public Camera basketCamera;
     public Transform fishOnCuttingBoardTransform;
+    /// the more the worse
+    private int score = 0;
 
     void Awake () {
         fishToCut = generatedAIFishCount;
@@ -30,15 +33,21 @@ public class GameController : NetworkBehaviour {
 
     public override void OnStartServer () {
         base.OnStartServer();
-        OnGameStart();
+        StartCoroutine(OnGameStart());
     }
 
-    private void OnGameStart () {
+    private IEnumerator OnGameStart () {
+        score = 0;
         for (int i = 0; i < generatedAIFishCount; ++i) {
             var aiFish = Instantiate(aiFishPrefab, fishSpawnPoint.position + 0.2f * i * Vector3.up, Quaternion.Euler(0, Random.Range(0, 360), 0));
             NetworkServer.Spawn(aiFish);
             fishList.Add(aiFish.GetComponent<FishControl>());
         }
+
+        yield return null;
+        yield return null;
+        // NOTE wait till local player is ready
+        moveFishToCuttingBoard(fishList[0]);
     }
 
     [Server]
@@ -56,7 +65,7 @@ public class GameController : NetworkBehaviour {
     [Server]
     public void moveFishToCuttingBoard(FishControl fish) {
         fishOnBoard = fish;
-        fish.RpcMoveToBoard(fishOnCuttingBoardTransform.position);
+        fish.RpcMoveTo(fishOnCuttingBoardTransform.position);
     }
 
     [Server]
@@ -68,14 +77,31 @@ public class GameController : NetworkBehaviour {
     public void OnFishKilled (FishControl fish) {
         if (fishOnBoard == fish) fishOnBoard = null;
         fishList.Remove(fish);
-        fishToCut--;
-        if (fishToCut == 0) {
+        if (fish.GetComponent<AIFishController>() != null) {
+            fishToCut--;
+        } else {
+            score += 10;
+        }
+        if (fishToCut > 0) {
+           if (fishList.Count > 0) {
+               moveFishToCuttingBoard(fishList[0]);
+           }
+        } else {
             // TODO game over, show score
         }
     }
 
+    public void OnMercyFish (FishControl fish) {
+        fishList.Remove(fish);
+        if (fishOnBoard == fish) fishOnBoard = null;
+        if (fishList.Count > 0) {
+            moveFishToCuttingBoard(fishList[0]);
+        }
+        score++;
+    }
+
     [ServerCallback] // TODO might also show gui on clients (fish view)
     void OnGUI () {
-        GUI.Label(new Rect(20, 20, 200, 80), $"{fishToCut} more fishes to kill");
+        GUI.Label(new Rect(20, 20, 300, 80), $"{fishToCut} more fishes to kill | score: -{score}");
     }
 }

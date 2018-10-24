@@ -13,10 +13,6 @@ public class ChefController : NetworkBehaviour {
 
     public const float knifeDroppingSpeed = 3f;
 
-    private float gamePlayAreaLeftBoarder;
-    private float gamePlayAreaRightBoarder;
-    private float gamePlayAreaTopBoarder;
-    private float gamePlayAreaBottomBoarder;
     public Camera viewCamera;
     private Camera fishBasketCamera;
 
@@ -29,11 +25,6 @@ public class ChefController : NetworkBehaviour {
     private float knifePosY;
 
     void Start () {
-        gamePlayAreaLeftBoarder = 0f;
-        gamePlayAreaRightBoarder = Screen.width;
-        gamePlayAreaBottomBoarder = 0f;
-        gamePlayAreaTopBoarder = Screen.height;
-
         viewCamera.gameObject.SetActive(isLocalPlayer);
         fishBasketCamera = GameController.instance.basketCamera;
         Cursor.visible = false;
@@ -92,8 +83,11 @@ public class ChefController : NetworkBehaviour {
                     }
                 }
             } else {
-                if (Input.GetMouseButtonDown(0)) {
+                if (ReInput.players.SystemPlayer.GetButtonDown("Cut")) {
                     CmdCut();
+                }
+                if (ReInput.players.SystemPlayer.GetButtonDown("Mercy")) {
+                    CmdMercy();
                 }
             }
         }
@@ -120,6 +114,15 @@ public class ChefController : NetworkBehaviour {
         audioSrc.PlayOneShot(Resources.Load(ResourceLib.knifeSwooshSFX) as AudioClip);
     }
 
+    [Command]
+    void CmdMercy () {
+        var fish = GameController.instance.fishOnBoard;
+        if (fish) {
+            RpcOnMercy(fish.gameObject);
+            GameController.instance.OnMercyFish(fish);
+        }
+    }
+
     [ServerCallback]
     public void OnKnifeDown () {
         GameController.instance.fishOnBoard?.OnCut();
@@ -128,6 +131,11 @@ public class ChefController : NetworkBehaviour {
     [ClientRpc]
     void RpcOnCut () {
         chefAnimator.SetTrigger("Cut");
+    }
+
+    [ClientRpc]
+    void RpcOnMercy (GameObject fish) {
+        fish.GetComponent<FishControl>().OnMercied();
     }
 
     void OnKnifePosYChanged (float posY) {
