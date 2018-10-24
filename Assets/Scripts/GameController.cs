@@ -18,18 +18,24 @@ public class GameController : NetworkBehaviour {
 
     public GameObject chefScreen;
     public ScoreScreen finalScoreScreen;
+    public Text scoreTextUI;
 
     public GameObject aiFishPrefab;
+    public Camera basketCamera;
+    public Transform fishOnCuttingBoardTransform;
+
+    [Header("Spawn")]
     public Transform fishSpawnPoint;
+    /// put players in a secret place first when they join in case the chef cheats
+    public Transform playerSpawnPoint;
+    [Header("Parameter")]
     public int generatedAIFishCount;
-    public int fishToKill { get; private set; } // reserved if fishToCut might not be designed as the count of AI fishes
+
+    public int fishToKill { get; private set; } // reserved if fishToKill might not be designed as the count of AI fishes
     public List<FishControl> fishList { get; } = new List<FishControl>();
     public FishControl fishOnBoard { get; private set; }
     public bool cuttingBoardTaken => fishOnBoard != null;
-    public Camera basketCamera;
-    public Transform fishOnCuttingBoardTransform;
-    public Text scoreTextUI;
-    /// the more the worse
+
     public int fishKilled { get; private set; }
     public int allFishMercied { get; private set; }
     public int playersKilled { get; private set; }
@@ -74,7 +80,7 @@ public class GameController : NetworkBehaviour {
 
     [Server]
     public void OnPlayerJoin (PlayerFishController player) {
-        fishList.Add(player.GetComponent<FishControl>());
+        fishList.Insert(0, player.GetComponent<FishControl>());
     }
 
     [Server]
@@ -98,7 +104,7 @@ public class GameController : NetworkBehaviour {
 
     private void RemoveFishFromList (FishControl fish) {
         fishList.Remove(fish);
-        if (fishList.Count < 4) {
+        if (fishList.Count < Random.Range(2, 5)) {
             SpawnAIFish();
         }
     }

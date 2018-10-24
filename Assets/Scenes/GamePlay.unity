@@ -673,6 +673,7 @@ MonoBehaviour:
   aiFishPrefab: {fileID: 1502247479247988, guid: 0036808ef47cafa4c99d389ff09db016,
     type: 2}
   fishSpawnPoint: {fileID: 1092848808}
+  playerSpawnPoint: {fileID: 1030751667}
   generatedAIFishCount: 6
   basketCamera: {fileID: 1088104942}
   fishOnCuttingBoardTransform: {fileID: 1277372884}
@@ -972,6 +973,34 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfa55d7d33921f54aa958b65cbbded5f, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &1030751666
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1030751667}
+  m_Layer: 0
+  m_Name: Player Secret Spawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1030751667
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1030751666}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.26, y: 1.121, z: 1.532}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 19
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1057228854
 GameObject:
   m_ObjectHideFlags: 0
