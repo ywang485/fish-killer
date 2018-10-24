@@ -44,7 +44,7 @@ public class NetworkGameManager : NetworkManager {
     }
 
     private GameObject instantiateGameForFish() {
-        GameObject obj = Instantiate(fishPrefab, GameController.instance.fishSpawnPoint.position, Quaternion.identity);
+        GameObject obj = Instantiate(fishPrefab, GameController.instance.playerSpawnPoint.position, Quaternion.identity);
         return obj;
     }
 }

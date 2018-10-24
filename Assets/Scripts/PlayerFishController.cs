@@ -17,6 +17,11 @@ public class PlayerFishController : NetworkBehaviour
         viewCamera.gameObject.SetActive(isLocalPlayer && !isServer);
     }
 
+    public override void OnStartServer () {
+        base.OnStartServer();
+        GameController.instance.OnPlayerJoin(this);
+    }
+
     void Update()
     {
         if (isLocalPlayer)
