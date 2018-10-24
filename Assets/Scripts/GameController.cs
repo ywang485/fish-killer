@@ -48,15 +48,19 @@ public class GameController : NetworkBehaviour {
         wrongCut = 0;
 
         for (int i = 0; i < generatedAIFishCount; ++i) {
-            var aiFish = Instantiate(aiFishPrefab, fishSpawnPoint.position + 0.2f * i * Vector3.up, Quaternion.Euler(0, Random.Range(0, 360), 0));
-            NetworkServer.Spawn(aiFish);
-            fishList.Add(aiFish.GetComponent<FishControl>());
+            SpawnAIFish(0.2f * i * Vector3.up);
         }
 
         yield return null;
         yield return null;
         // NOTE wait till local player is ready
         moveFishToCuttingBoard(fishList[0]);
+    }
+
+    private void SpawnAIFish (Vector3 spawnOffset = default(Vector3)) {
+        var aiFish = Instantiate(aiFishPrefab, fishSpawnPoint.position + spawnOffset, Quaternion.Euler(0, Random.Range(0, 360), 0));
+        NetworkServer.Spawn(aiFish);
+        fishList.Add(aiFish.GetComponent<FishControl>());
     }
 
     void Update () {
@@ -89,14 +93,21 @@ public class GameController : NetworkBehaviour {
         fish.RpcMoveTo(fishSpawnPoint.position);
     }
 
+    private void RemoveFishFromList (FishControl fish) {
+        fishList.Remove(fish);
+        if (fishList.Count < 4) {
+            SpawnAIFish();
+        }
+    }
+
     public void OnFishKilled (FishControl fish) {
         if (fishOnBoard == fish) fishOnBoard = null;
-        fishList.Remove(fish);
         if (fish.GetComponent<AIFishController>() != null) {
             fishToCut--;
         } else {
             wrongCut++;
         }
+        RemoveFishFromList(fish);
         if (fishToCut > 0) {
            if (fishList.Count > 0) {
                moveFishToCuttingBoard(fishList[0]);
@@ -107,7 +118,7 @@ public class GameController : NetworkBehaviour {
     }
 
     public void OnMercyFish (FishControl fish) {
-        fishList.Remove(fish);
+        RemoveFishFromList(fish);
         if (fishOnBoard == fish) fishOnBoard = null;
         if (fishList.Count > 0) {
             moveFishToCuttingBoard(fishList[0]);
