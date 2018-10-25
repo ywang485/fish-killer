@@ -42,6 +42,7 @@ public class FishControl : NetworkBehaviour {
     [ClientRpc]
     public void RpcMoveTo (Vector3 pos) {
         transform.position = pos;
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
     [Server]

@@ -68,6 +68,7 @@ MonoBehaviour:
   m_SpawnPrefabs:
   - {fileID: 1417313112870726, guid: 7732797770d5f497c9ead58411401c47, type: 2}
   - {fileID: 1968114230174624, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
+  - {fileID: 1502247479247988, guid: 0036808ef47cafa4c99d389ff09db016, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -126,6 +127,3 @@ MonoBehaviour:
   networkDiscoveryPrefab: {fileID: 0}
   chefPrefab: {fileID: 1417313112870726, guid: 7732797770d5f497c9ead58411401c47, type: 2}
   fishPrefab: {fileID: 1968114230174624, guid: 893519e05eae647adb54abfb19bbd2c6, type: 2}
-  fishSpawningPoint: {fileID: 0}
-  chefCamera: {fileID: 0}
-  fishCamera: {fileID: 0}
