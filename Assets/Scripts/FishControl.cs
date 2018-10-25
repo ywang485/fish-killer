@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Networking;
 using DG.Tweening;
+using System.IO;
 
 public class FishControl : NetworkBehaviour {
 
@@ -57,6 +58,7 @@ public class FishControl : NetworkBehaviour {
         audioSrc.PlayOneShot(Resources.Load(ResourceLib.knifeCutSFX) as AudioClip);
         if (GetComponent<PlayerFishController>() != null) {
             // TODO show bloody fx
+            UploadMotionHistory(false, GetComponent<PlayerFishController>().motionRec);
         }
         GetComponent<Collider>().enabled = false;
     }
@@ -66,5 +68,21 @@ public class FishControl : NetworkBehaviour {
         fishAnimator.Play("Mercied");
         GetComponent<Collider>().enabled = false;
         DOVirtual.DelayedCall(10, () => NetworkServer.Destroy(gameObject));
+        if (GetComponent<PlayerFishController>() != null)
+        {
+            UploadMotionHistory(true, GetComponent<PlayerFishController>().motionRec);
+        }
     }
+
+    [Client]
+    private void UploadMotionHistory(bool recognized, FishMotionHistory history) {
+        history.recognized = recognized;
+        string json = JsonUtility.ToJson(history);
+        MotionHistoryServerCommunication comm = new MotionHistoryServerCommunication();
+        // For testing
+        File.WriteAllText("tmp_history.json", json);
+        // End of testing
+        comm.PostJSON(json);
+    }
+
 }

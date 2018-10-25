@@ -7,7 +7,8 @@ public enum FishMotionType
     Flop1,
     Flop2,
     Flop3,
-    Flop4
+    Flop4,
+    Still
 }
 
 public class FishMotion {
