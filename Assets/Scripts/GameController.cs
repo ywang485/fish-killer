@@ -93,13 +93,13 @@ public class GameController : NetworkBehaviour {
     [Server]
     public void moveFishToCuttingBoard(FishControl fish) {
         fishOnBoard = fish;
-        fish.RpcMoveTo(fishOnCuttingBoardTransform.position);
+        fish.RpcMoveTo(fishOnCuttingBoardTransform.position, true);
     }
 
     [Server]
     public void moveFishBackToBasket(FishControl fish) {
         fishOnBoard = null;
-        fish.RpcMoveTo(fishSpawnPoint.position);
+        fish.RpcMoveTo(fishSpawnPoint.position, false);
     }
 
     private void RemoveFishFromList (FishControl fish) {

@@ -16,12 +16,6 @@ public class FishControl : NetworkBehaviour {
     }
 
     [ClientRpc]
-    public void RpcFishBreak() {
-        normalModel.SetActive(false);
-        brokenModel.SetActive(true);
-    }
-
-    [ClientRpc]
     public void RpcOnFlop (FishMotionType flopType) {
         switch (flopType) {
         case FishMotionType.Flop1:
@@ -40,8 +34,9 @@ public class FishControl : NetworkBehaviour {
     }
 
     [ClientRpc]
-    public void RpcMoveTo (Vector3 pos) {
+    public void RpcMoveTo (Vector3 pos, bool fixedRotation) {
         transform.position = pos;
+        if (fixedRotation) transform.rotation = Quaternion.identity;
         GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
@@ -54,7 +49,9 @@ public class FishControl : NetworkBehaviour {
 
     [ClientRpc]
     private void RpcOnCut () {
-        fishAnimator.Play("Cut");
+        normalModel.SetActive(false);
+        brokenModel.SetActive(true);
+        GetComponent<Rigidbody>().isKinematic = true;
         audioSrc.PlayOneShot(Resources.Load(ResourceLib.knifeCutSFX) as AudioClip);
         if (GetComponent<PlayerFishController>() != null) {
             // TODO show bloody fx
