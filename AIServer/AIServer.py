@@ -4,15 +4,28 @@ import time
 import json
 
 app = Flask(__name__)
+dirPath = 'uploads'
+placeholderHistory = """
+[{"motionType":"Flop1","duration":1}]
+"""
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/upload', methods=['GET', 'POST'])
 def upload_motion_history():
     if request.method == 'POST':
         jsonObj = request.json
         filename = time.strftime("%Y%m%d%H%M%S")
-        newFile = open('uploads/' + filename + '.json', 'w')
+        newFile = open(dirPath + '/' + filename + '.json', 'w')
         newFile.write(json.dumps(jsonObj))
     return json.dumps(jsonObj)
+
+@app.route('/download-random', methods=['GET', 'POST'])
+def download_random_history():
+    if len(os.listdir(dirPath)):
+        return placeholderHistory
+    else:
+        random.seed()
+        historyFile = random.choice(os.listdir(dirPath))
+        return historyFile.read()
 
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1', port=5000)

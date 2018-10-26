@@ -78,12 +78,22 @@ public class FishControl : NetworkBehaviour {
     [Client]
     private void UploadMotionHistory(bool recognized, FishMotionHistory history) {
         history.recognized = recognized;
-        string json = JsonUtility.ToJson(history);
-        MotionHistoryServerCommunication comm = new MotionHistoryServerCommunication();
-        // For testing
-        File.WriteAllText("tmp_history.json", json);
-        // End of testing
-        comm.PostJSON(json);
+        string desc_json = JsonUtility.ToJson(history);
+        string seq_json = "[";
+        for (int i = 0; i < history.motions.Count; i ++) {
+            seq_json += "{";
+            seq_json += ("\"motionType\":\"" + MotionHistoryServerCommunication.motionType2String(history.motions[i].motion) + "\",");
+            seq_json += ("\"duration\":" + history.motions[i].duration);
+            seq_json += "}";
+            if (i < history.motions.Count - 1) {
+                seq_json += ",\n";
+            }
+
+        }
+        seq_json += "]\n";
+        File.WriteAllText("tmp_history.json", desc_json + seq_json);
+        MotionHistoryServerCommunication comm = MotionHistoryServerCommunication.instance;
+        comm.PostJSON("{\"meta\": " + desc_json + ", \"sequence\": " + seq_json + "}");
     }
 
 }
