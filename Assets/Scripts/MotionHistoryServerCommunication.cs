@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MotionHistoryServerCommunication : MonoBehaviour{
+public class MotionHistoryServerCommunication : MonoBehaviour
+{
 
-    private string postHistoryURL = "http://127.0.0.1:5000/upload";
-    private string downloadHistoryURL = "http://127.0.0.1:5000/download-random";
+    private static string postHistoryURL = "http://39.104.139.188:32184/upload";
+    public static string downloadHistoryURL = "http://39.104.139.188:32184/download-random";
     private static MotionHistoryServerCommunication _instance;
 
     private void Awake()
@@ -17,19 +18,12 @@ public class MotionHistoryServerCommunication : MonoBehaviour{
     {
         get
         {
-            if (_instance == null) {
+            if (_instance == null)
+            {
                 _instance = GameObject.FindObjectOfType<MotionHistoryServerCommunication>();
             }
             return _instance;
         }
-    }
-
-    public string downloadJSON() {
-        WWW www;
-        www = new WWW(downloadHistoryURL);
-        Debug.Log("Downloading motion history...");
-        StartCoroutine(WaitForRequest(www));
-        return www.text;
     }
 
     public WWW PostJSON(string jsonStr)
@@ -62,7 +56,8 @@ public class MotionHistoryServerCommunication : MonoBehaviour{
         }
     }
 
-    static public string motionType2String(FishMotionType mt) {
+    static public string motionType2String(FishMotionType mt)
+    {
         if (mt == FishMotionType.Flop1)
         {
             return "Flop1";
@@ -71,13 +66,42 @@ public class MotionHistoryServerCommunication : MonoBehaviour{
         {
             return "Flop2";
         }
-        else if (mt == FishMotionType.Flop3) {
+        else if (mt == FishMotionType.Flop3)
+        {
             return "Flop3";
-        } else if (mt == FishMotionType.Flop4) {
+        }
+        else if (mt == FishMotionType.Flop4)
+        {
             return "Flop4";
-        } else {
+        }
+        else
+        {
             return "Still";
         }
 
-    } 
+    }
+
+    static public FishMotionType string2motionType(string str)
+    {
+        if (str == "Flop1")
+        {
+            return FishMotionType.Flop1;
+        }
+        else if (str == "Flop2")
+        {
+            return FishMotionType.Flop2;
+        }
+        else if (str == "Flop3")
+        {
+            return FishMotionType.Flop3;
+        }
+        else if (str == "Flop4")
+        {
+            return FishMotionType.Flop4;
+        }
+        else
+        {
+            return FishMotionType.Still;
+        }
+    }
 }
