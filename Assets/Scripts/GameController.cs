@@ -109,8 +109,10 @@ public class GameController : NetworkBehaviour {
 
     private void RemoveFishFromList (FishControl fish) {
         fishList.Remove(fish);
-        if (fishList.Count < Random.Range(2, 5)) {
-            SpawnAIFish();
+        var fishCountToFill = Random.Range(2, 5);
+        int k = 0;
+        while (fishList.Count < fishCountToFill) {
+            SpawnAIFish(0.2f * (k++) * Vector3.up);
         }
 
         while (fishList.Count > 0 && fishList[0] == null) { // in case player leaves and the object is destroyed
