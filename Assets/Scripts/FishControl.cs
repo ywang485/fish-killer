@@ -44,7 +44,17 @@ public class FishControl : NetworkBehaviour {
     public void OnCut () {
         RpcOnCut();
         GameController.instance.OnFishKilled(this);
-        DOVirtual.DelayedCall(10, () => NetworkServer.Destroy(gameObject));
+        DOVirtual.DelayedCall(5, () => {
+            var playerController = GetComponent<PlayerFishController>();
+            if (playerController == null) {
+                NetworkServer.Destroy(gameObject);
+            } else {
+                this.RpcMoveTo(GameController.instance.playerSpawnPoint.position, false);
+                normalModel.SetActive(true);
+                brokenModel.SetActive(false);
+                GameController.instance.ResetPlayer(playerController);
+            }
+        });
     }
 
     [ClientRpc]

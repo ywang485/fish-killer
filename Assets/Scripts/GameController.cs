@@ -84,6 +84,11 @@ public class GameController : NetworkBehaviour {
     }
 
     [Server]
+    public void ResetPlayer (PlayerFishController player) {
+        fishList.Insert(Random.Range(0, fishList.Count), player.GetComponent<FishControl>());
+    }
+
+    [Server]
     public void NextFish () {
         // TODO
         // change the current fish to next fish on basket
@@ -106,6 +111,10 @@ public class GameController : NetworkBehaviour {
         fishList.Remove(fish);
         if (fishList.Count < Random.Range(2, 5)) {
             SpawnAIFish();
+        }
+
+        while (fishList.Count > 0 && fishList[0] == null) { // in case player leaves and the object is destroyed
+            fishList.RemoveAt(0);
         }
     }
 
