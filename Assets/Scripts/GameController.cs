@@ -84,6 +84,11 @@ public class GameController : NetworkBehaviour {
     }
 
     [Server]
+    public void ResetPlayer (PlayerFishController player) {
+        fishList.Insert(Random.Range(0, fishList.Count), player.GetComponent<FishControl>());
+    }
+
+    [Server]
     public void NextFish () {
         // TODO
         // change the current fish to next fish on basket
@@ -93,19 +98,25 @@ public class GameController : NetworkBehaviour {
     [Server]
     public void moveFishToCuttingBoard(FishControl fish) {
         fishOnBoard = fish;
-        fish.RpcMoveTo(fishOnCuttingBoardTransform.position);
+        fish.RpcMoveTo(fishOnCuttingBoardTransform.position, true);
     }
 
     [Server]
     public void moveFishBackToBasket(FishControl fish) {
         fishOnBoard = null;
-        fish.RpcMoveTo(fishSpawnPoint.position);
+        fish.RpcMoveTo(fishSpawnPoint.position, false);
     }
 
     private void RemoveFishFromList (FishControl fish) {
         fishList.Remove(fish);
-        if (fishList.Count < Random.Range(2, 5)) {
-            SpawnAIFish();
+        var fishCountToFill = Random.Range(2, 5);
+        int k = 0;
+        while (fishList.Count < fishCountToFill) {
+            SpawnAIFish(0.2f * (k++) * Vector3.up);
+        }
+
+        while (fishList.Count > 0 && fishList[0] == null) { // in case player leaves and the object is destroyed
+            fishList.RemoveAt(0);
         }
     }
 

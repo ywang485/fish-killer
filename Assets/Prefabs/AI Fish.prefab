@@ -369,8 +369,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4746459835978614}
   - component: {fileID: 95217521033235406}
-  - component: {fileID: 54745580986705734}
-  - component: {fileID: 65998257239562856}
   m_Layer: 0
   m_Name: AyuBreaked
   m_TagString: Untagged
@@ -1472,21 +1470,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!54 &54745580986705734
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1493259361497428}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!65 &65625857000193904
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1499,18 +1482,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.37, y: 0.07, z: 0.17}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &65998257239562856
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1493259361497428}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: -0.42, y: 0.09, z: 0.36}
-  m_Center: {x: -0.12, y: 0, z: -0.04}
 --- !u!82 &82015257826321740
 AudioSource:
   m_ObjectHideFlags: 1
@@ -1698,7 +1669,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fishAnimator: {fileID: 95487008198825912}
   brokenModel: {fileID: 1493259361497428}
-  normalModel: {fileID: 0}
+  normalModel: {fileID: 1158591495285296}
 --- !u!137 &137329048104659222
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

@@ -43,16 +43,16 @@ public class ChefController : NetworkBehaviour {
             if (Mathf.Abs(knifeVerticalInput) > Mathf.Epsilon) {
                 knifePosY = Mathf.Clamp01(knifePosY + 0.02f * knifeVerticalInput);
             }
-            if (!fishSelectionMode) {
-                if (Input.mousePosition.x <= fishSelectionActivationBoundary)
-                {
-                    switchToFishSelection();
-                }
-            }
+            // if (!fishSelectionMode) {
+            //     if (Input.mousePosition.x <= fishSelectionActivationBoundary)
+            //     {
+            //         switchToFishSelection();
+            //     }
+            // }
             // for testing
-            if (Input.GetKeyDown(KeyCode.N)) {
-                GameController.instance.NextFish();
-            }
+            // if (Input.GetKeyDown(KeyCode.N)) {
+            //     GameController.instance.NextFish();
+            // }
             // end testing
             if (fishSelectionMode)
             {
