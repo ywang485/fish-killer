@@ -63,10 +63,13 @@ public class FishControl : NetworkBehaviour {
         normalModel.SetActive(false);
         brokenModel.SetActive(true);
         GetComponent<Rigidbody>().isKinematic = true;
-        audioSrc.PlayOneShot(Resources.Load(ResourceLib.knifeCutSFX) as AudioClip);
         if (GetComponent<PlayerFishController>() != null) {
-            // TODO show bloody fx
+            // show bloody fx
+            Instantiate(Resources.Load<GameObject>(ResourceLib.bleedingEffect) as GameObject, transform.position, Quaternion.identity);
             UploadMotionHistory(false, GetComponent<PlayerFishController>().motionRec);
+            audioSrc.PlayOneShot(Resources.Load(ResourceLib.playerFishCut) as AudioClip);
+        } else{
+            audioSrc.PlayOneShot(Resources.Load(ResourceLib.knifeCutSFX) as AudioClip);
         }
         GetComponent<Collider>().enabled = false;
     }
