@@ -16,14 +16,18 @@ public class AIFishController : NetworkBehaviour {
     void Start () {
         if (isServer) {
             // Plug in random fish AI
-            int AIIdx = Random.Range(0, 1);
+            int AIIdx = Random.Range(0, 3);
             if (AIIdx == 0) {
                 fishAI = new UniformRandomFishAI();
                 Debug.Log("Uniform random fish AI set.");
             }
-            else {
+            else if (AIIdx == 1){
                 fishAI = new StaticMotionFishAI();
                 Debug.Log("Static motion fish AI set.");
+            } else {
+                MotionHistoryReplayAI ai = gameObject.AddComponent<MotionHistoryReplayAI> ();
+                fishAI = ai;
+                Debug.Log("Motion History Replay fish AI set.");
             }
             FishMotion currMotion = fishAI.nextMotion();
             control.RpcOnFlop(currMotion.motion);

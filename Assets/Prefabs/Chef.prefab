@@ -571,6 +571,7 @@ GameObject:
   - component: {fileID: 114263236882081236}
   - component: {fileID: 114723421987698532}
   - component: {fileID: 82367182944360930}
+  - component: {fileID: 114607554460263240}
   m_Layer: 0
   m_Name: Chef
   m_TagString: Chef
@@ -2431,6 +2432,17 @@ MonoBehaviour:
   rightBound: 60
   upBound: -30
   downBound: -80
+--- !u!114 &114607554460263240
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1417313112870726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e03fc3cdcbafd4029a03bbf1f5e04d21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114723421987698532
 MonoBehaviour:
   m_ObjectHideFlags: 1

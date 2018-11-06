@@ -1,11 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
+using System.Collections;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(FishControl))]
 public class PlayerFishController : NetworkBehaviour
 {
     private FishControl control;
     private GameObject fishBody;
+
+    // For motion sequence recoding
+    public FishMotionHistory motionRec;
+    private float lastMotionStartTime;
+    private FishMotionType currMotion = FishMotionType.Still;
+
 
     public Camera viewCamera;
 
@@ -15,6 +23,13 @@ public class PlayerFishController : NetworkBehaviour
 
     void Start() {
         viewCamera.gameObject.SetActive(isLocalPlayer && !isServer);
+        if (isLocalPlayer) {
+            motionRec = new FishMotionHistory();
+            motionRec.totalDuration = 0;
+            motionRec.motions = new List<FishMotion>();
+            lastMotionStartTime = Time.time;
+        }
+        
     }
 
     public override void OnStartServer () {
@@ -26,24 +41,36 @@ public class PlayerFishController : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
+            FishMotionType motion = FishMotionType.Still; 
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                CmdFlop(FishMotionType.Flop1);
+                motion = FishMotionType.Flop1;
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                CmdFlop(FishMotionType.Flop2);
+                motion = FishMotionType.Flop2;
             }
             else if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                CmdFlop(FishMotionType.Flop3);
+                motion = FishMotionType.Flop3;
             }
             else if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                CmdFlop(FishMotionType.Flop4);
-            }/* else {
-                animator.Play("Still");
-            }*/
+                motion = FishMotionType.Flop4;
+            }
+            if (motion != FishMotionType.Still) {
+                CmdFlop(motion);
+            }
+            // Add new motion record when new motion is performed
+            if (currMotion != motion) {
+                FishMotion newMotion = new FishMotion();
+                newMotion.motion = currMotion;
+                newMotion.duration = Time.time - lastMotionStartTime;
+                motionRec.motions.Add(newMotion);
+                motionRec.totalDuration += newMotion.duration;
+                currMotion = motion;
+                lastMotionStartTime = Time.time;
+            }
         }
     }
 
