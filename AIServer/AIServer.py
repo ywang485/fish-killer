@@ -40,6 +40,8 @@ def convertJSONMotionHistory2EasyParsingForm(motionHistoryInJSON):
         out += '&'
         out += str(m['duration'])
         out += '\n'
+    if out == '':
+        out = 'Still&1.0\n'
     return out
 
 if __name__ == '__main__':

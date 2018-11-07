@@ -9,6 +9,7 @@ public class MotionHistoryReplayAI : MonoBehaviour, FishAI {
     private bool hasData;
 
     void Start () {
+        hasData = false;
         StartCoroutine(DownloadHistory());
     }
 
@@ -38,6 +39,7 @@ public class MotionHistoryReplayAI : MonoBehaviour, FishAI {
             motionSeq.Add(m);
         }
         hasData = true;
+        currMotionIdx = 0;
     }
 
     void FishAI.inputData()
@@ -46,8 +48,6 @@ public class MotionHistoryReplayAI : MonoBehaviour, FishAI {
 
     FishMotion FishAI.nextMotion()
     {
-        hasData = false;
-        currMotionIdx = 0;
         if (hasData)
         {
             FishMotion toReturn = motionSeq[currMotionIdx];
