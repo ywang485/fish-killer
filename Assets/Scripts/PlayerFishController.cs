@@ -14,11 +14,13 @@ public class PlayerFishController : NetworkBehaviour
     private float lastMotionStartTime;
     private FishMotionType currMotion = FishMotionType.Still;
 
+    private AudioSource audioSrc;
 
     public Camera viewCamera;
 
     void Awake () {
         control = GetComponent<FishControl>();
+        audioSrc = GetComponent<AudioSource>();
     }
 
     void Start() {
