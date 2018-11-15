@@ -6,10 +6,8 @@ using UnityEngine.SceneManagement;
 public class TitleScreen : MonoBehaviour {
     public Text roomNameUI;
 
-    void Update () {
-        if (ReInput.players.SystemPlayer.GetButtonDown("Restart")) {
-            BootGame.roomName = roomNameUI.text;
-            SceneManager.LoadScene("GamePlay");
-        }
+    public void StartGame () {
+        BootGame.roomName = roomNameUI.text;
+        SceneManager.LoadScene("GamePlay");
     }
 }
