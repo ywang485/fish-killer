@@ -30,7 +30,7 @@ public class BootGame : MonoBehaviour {
                 }).OnError(Debug.LogError).OnFinally(() => connectingHint.SetActive(false));
             } else {
                 connectingTextUI.text = "Hosting";
-                service.CreateLobby("default", 20, "", LobbyType.Public, "", 0).OnReturn((lobby) => {
+                service.CreateLobby(roomName, 20, "", LobbyType.Public, "", 0).OnReturn((lobby) => {
                     this.lobby = lobby;
                     ShowJoinHint("Joined As Chef");
                 }).OnError(Debug.LogError).OnFinally(() => connectingHint.SetActive(false));

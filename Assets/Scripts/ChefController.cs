@@ -132,7 +132,11 @@ public class ChefController : NetworkBehaviour {
 
     [ServerCallback]
     public void OnKnifeDown () {
-        GameController.instance.fishOnBoard?.OnCut();
+        if (GameController.instance.fishOnBoard != null /*NOTE might be destroyed due to disconnection*/) {
+            GameController.instance.fishOnBoard.OnCut();
+        } else {
+            GameController.instance.NextFish();
+        }
     }
 
     [ClientRpc]

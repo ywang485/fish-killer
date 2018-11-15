@@ -67,7 +67,11 @@ public class FishControl : NetworkBehaviour {
         if (GetComponent<PlayerFishController>() != null) {
             // show bloody fx
             Instantiate(Resources.Load<GameObject>(ResourceLib.bleedingEffect) as GameObject, transform.position, Quaternion.identity);
-            UploadMotionHistory(false, GetComponent<PlayerFishController>().motionRec);
+            try {
+                UploadMotionHistory(false, GetComponent<PlayerFishController>().motionRec);
+            } catch (System.Exception e) {
+                Debug.LogException(e);
+            }
             audioSrc.PlayOneShot(Resources.Load(ResourceLib.playerFishCut) as AudioClip);
         } else{
             audioSrc.PlayOneShot(Resources.Load(ResourceLib.knifeCutSFX) as AudioClip);
@@ -82,7 +86,11 @@ public class FishControl : NetworkBehaviour {
         DOVirtual.DelayedCall(10, () => NetworkServer.Destroy(gameObject));
         if (GetComponent<PlayerFishController>() != null)
         {
-            UploadMotionHistory(true, GetComponent<PlayerFishController>().motionRec);
+            try {
+                UploadMotionHistory(true, GetComponent<PlayerFishController>().motionRec);
+            } catch (System.Exception e) {
+                Debug.LogException(e);
+            }
         }
     }
 
