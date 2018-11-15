@@ -18,6 +18,7 @@ public class FishControl : NetworkBehaviour {
 
     [ClientRpc]
     public void RpcOnFlop (FishMotionType flopType) {
+        //audioSrc.PlayOneShot(Resources.Load(ResourceLib.fishFlopSound) as AudioClip);
         switch (flopType) {
         case FishMotionType.Flop1:
             fishAnimator.SetTrigger("Up");
