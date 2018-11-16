@@ -5,12 +5,14 @@ using OnlineService;
 /// boot the game
 /// host a game or join a game
 public class BootGame : MonoBehaviour {
+    static public string roomName = "";
     public GameObject connectingHint;
     public Text connectingTextUI;
     public Text joinHint;
     private ILobby lobby;
 
     void Start () {
+        if (string.IsNullOrEmpty(roomName)) roomName = "default";
         Cursor.lockState = CursorLockMode.Locked;
         GameObject.DontDestroyOnLoad(gameObject);
         // check if a lobby exists
@@ -18,7 +20,7 @@ public class BootGame : MonoBehaviour {
         // if yes, join the game and spawn as a fish
         var service = MultiplayerServiceManager.GetService();
         connectingHint.SetActive(true);
-        service.RequestLobbies(5, "", 0).OnReturn(lst => {
+        service.RequestLobbies(5, roomName, 0).OnReturn(lst => {
             connectingHint.SetActive(true);
             if (lst.Count > 0) {
                 connectingTextUI.text = "Joining";
@@ -28,7 +30,7 @@ public class BootGame : MonoBehaviour {
                 }).OnError(Debug.LogError).OnFinally(() => connectingHint.SetActive(false));
             } else {
                 connectingTextUI.text = "Hosting";
-                service.CreateLobby("theOne", 20, "", LobbyType.Public, "", 0).OnReturn((lobby) => {
+                service.CreateLobby(roomName, 20, "", LobbyType.Public, "", 0).OnReturn((lobby) => {
                     this.lobby = lobby;
                     ShowJoinHint("Joined As Chef");
                 }).OnError(Debug.LogError).OnFinally(() => connectingHint.SetActive(false));

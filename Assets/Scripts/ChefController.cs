@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
-using System.Collections;
-using System.Collections.Generic;
 using Rewired;
 
 public class ChefController : NetworkBehaviour {
@@ -36,7 +34,7 @@ public class ChefController : NetworkBehaviour {
 
     public override void OnStartClient () {
         base.OnStartClient();
-        GameController.instance.chefScreen.SetActive(true);
+        GameController.instance.chefScreen.gameObject.SetActive(true);
     }
 
     void Update() {
@@ -93,6 +91,12 @@ public class ChefController : NetworkBehaviour {
                     CmdMercy();
                 }
             }
+
+            if (GameController.instance.gameover) {
+                if (ReInput.players.SystemPlayer.GetButtonDown("Restart")) {
+                    GameController.instance.Restart();
+                }
+            }
         }
     }
 
@@ -128,7 +132,11 @@ public class ChefController : NetworkBehaviour {
 
     [ServerCallback]
     public void OnKnifeDown () {
-        GameController.instance.fishOnBoard?.OnCut();
+        if (GameController.instance.fishOnBoard != null /*NOTE might be destroyed due to disconnection*/) {
+            GameController.instance.fishOnBoard.OnCut();
+        } else {
+            GameController.instance.NextFish();
+        }
     }
 
     [ClientRpc]
