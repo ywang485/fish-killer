@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
-using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(FishControl))]
 public class PlayerFishController : NetworkBehaviour
@@ -31,7 +32,6 @@ public class PlayerFishController : NetworkBehaviour
             motionRec.motions = new List<FishMotion>();
             lastMotionStartTime = Time.time;
         }
-        
     }
 
     public override void OnStartServer () {
@@ -79,5 +79,17 @@ public class PlayerFishController : NetworkBehaviour
     [Command]
     void CmdFlop (FishMotionType flopType) {
         control.RpcOnFlop(flopType);
+    }
+
+    [Client]
+    public void OnCut () {
+        GameController.instance.fishLoseScreen.SetActive(true);
+        DOVirtual.DelayedCall(4, () => SceneManager.LoadScene("Title"));
+    }
+
+    [Client]
+    public void OnMercied () {
+        GameController.instance.fishWinScreen.SetActive(true);
+        DOVirtual.DelayedCall(4, () => SceneManager.LoadScene("Title"));
     }
 }

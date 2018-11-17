@@ -19,6 +19,8 @@ public class GameController : NetworkBehaviour {
     public ChefScreen chefScreen;
     public ScoreScreen finalScoreScreen;
     public Text scoreTextUI;
+    public GameObject fishWinScreen;
+    public GameObject fishLoseScreen;
 
     public GameObject aiFishPrefab;
     public Camera basketCamera;

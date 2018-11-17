@@ -34,7 +34,9 @@ public class ChefController : NetworkBehaviour {
 
     public override void OnStartClient () {
         base.OnStartClient();
-        GameController.instance.chefScreen.gameObject.SetActive(true);
+        if (isLocalPlayer) {
+            GameController.instance.chefScreen.gameObject.SetActive(true);
+        }
     }
 
     void Update() {
