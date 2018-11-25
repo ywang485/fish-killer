@@ -30,11 +30,9 @@ public class ChefController : NetworkBehaviour {
         Cursor.visible = false;
 
         audioSrc = GetComponent<AudioSource>();
-    }
-
-    public override void OnStartClient () {
-        base.OnStartClient();
-        GameController.instance.chefScreen.gameObject.SetActive(true);
+        if (isLocalPlayer) {
+            GameController.instance.chefScreen.gameObject.SetActive(true);
+        }
     }
 
     void Update() {
@@ -84,11 +82,13 @@ public class ChefController : NetworkBehaviour {
                     }
                 }
             } else {
-                if (ReInput.players.SystemPlayer.GetButtonDown("Cut")) {
-                    CmdCut();
-                }
-                if (ReInput.players.SystemPlayer.GetButtonDown("Mercy")) {
-                    CmdMercy();
+                if (!GameController.instance.gameover) {
+                    if (ReInput.players.SystemPlayer.GetButtonDown("Cut")) {
+                        CmdCut();
+                    }
+                    if (ReInput.players.SystemPlayer.GetButtonDown("Mercy")) {
+                        CmdMercy();
+                    }
                 }
             }
 

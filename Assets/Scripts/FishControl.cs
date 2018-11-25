@@ -77,6 +77,9 @@ public class FishControl : NetworkBehaviour {
             audioSrc.PlayOneShot(Resources.Load(ResourceLib.knifeCutSFX) as AudioClip);
         }
         GetComponent<Collider>().enabled = false;
+        if (isLocalPlayer) {
+            GetComponent<PlayerFishController>()?.OnCut();
+        }
     }
 
     [Client]
@@ -91,6 +94,9 @@ public class FishControl : NetworkBehaviour {
             } catch (System.Exception e) {
                 Debug.LogException(e);
             }
+        }
+        if (isLocalPlayer) {
+            GetComponent<PlayerFishController>()?.OnMercied();
         }
     }
 
