@@ -38,8 +38,11 @@ public class MotionHistoryReplayAI : MonoBehaviour, FishAI {
             m.duration = float.Parse(pair[1]);
             motionSeq.Add(m);
         }
-        hasData = true;
-        currMotionIdx = 0;
+        if (motionSeq.Count > 0)
+        {
+            hasData = true;
+            currMotionIdx = 0;
+        }
     }
 
     void FishAI.inputData()
