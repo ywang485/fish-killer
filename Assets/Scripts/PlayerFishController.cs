@@ -84,12 +84,18 @@ public class PlayerFishController : NetworkBehaviour
     [Client]
     public void OnCut () {
         GameController.instance.fishLoseScreen.SetActive(true);
-        DOVirtual.DelayedCall(4, () => SceneManager.LoadScene("Title"));
+        DOVirtual.DelayedCall(4, () => {
+            FindObjectOfType<BootGame>().lobby.Leave();
+            SceneManager.LoadScene("Title");
+        });
     }
 
     [Client]
     public void OnMercied () {
         GameController.instance.fishWinScreen.SetActive(true);
-        DOVirtual.DelayedCall(4, () => SceneManager.LoadScene("Title"));
+        DOVirtual.DelayedCall(4, () => {
+            FindObjectOfType<BootGame>().lobby.Leave();
+            SceneManager.LoadScene("Title");
+        });
     }
 }

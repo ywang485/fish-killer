@@ -9,7 +9,7 @@ public class BootGame : MonoBehaviour {
     public GameObject connectingHint;
     public Text connectingTextUI;
     public Text joinHint;
-    private ILobby lobby;
+    public ILobby lobby { get; private set; }
 
     void Start () {
         if (string.IsNullOrEmpty(roomName)) roomName = "default";
