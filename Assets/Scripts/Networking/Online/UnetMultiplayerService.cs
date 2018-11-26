@@ -112,6 +112,7 @@ namespace OnlineService {
                     NetworkManager.singleton.StopHost();
                 } else {
                     NetworkManager.singleton.matchMaker.DropConnection(match.networkId, match.nodeId, domain, leavePromise.CallbackHandler);
+                    NetworkManager.singleton.StopClient();
                 }
                 if (connectionSurrogate != null) {
                     connectionSurrogate.Deactivate();

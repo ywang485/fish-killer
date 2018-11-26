@@ -54,7 +54,6 @@ public class FishControl : NetworkBehaviour {
                 this.RpcMoveTo(GameController.instance.playerSpawnPoint.position, false);
                 normalModel.SetActive(true);
                 brokenModel.SetActive(false);
-                GameController.instance.ResetPlayer(playerController);
             }
         });
     }
@@ -86,14 +85,14 @@ public class FishControl : NetworkBehaviour {
     public void OnMercied () {
         fishAnimator.Play("Mercied");
         GetComponent<Collider>().enabled = false;
-        DOVirtual.DelayedCall(10, () => NetworkServer.Destroy(gameObject));
-        if (GetComponent<PlayerFishController>() != null)
-        {
+        if (GetComponent<PlayerFishController>() != null) {
             try {
                 UploadMotionHistory(true, GetComponent<PlayerFishController>().motionRec);
             } catch (System.Exception e) {
                 Debug.LogException(e);
             }
+        } else {
+            DOVirtual.DelayedCall(10, () => NetworkServer.Destroy(gameObject));
         }
         if (isLocalPlayer) {
             GetComponent<PlayerFishController>()?.OnMercied();
