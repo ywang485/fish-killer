@@ -8,6 +8,7 @@ public class MotionHistoryServerCommunication : MonoBehaviour
     private static string postHistoryURL = "http://39.104.139.188:32184/upload";
     public static string downloadHistoryURL = "http://39.104.139.188:32184/download-random";
     private static MotionHistoryServerCommunication _instance;
+    public static readonly int minimumHistoryLength = 1;
 
     private void Awake()
     {

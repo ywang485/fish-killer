@@ -103,6 +103,9 @@ public class FishControl : NetworkBehaviour {
     [Client]
     private void UploadMotionHistory(bool recognized, FishMotionHistory history) {
         history.recognized = recognized;
+        if (history.motions.Count < MotionHistoryServerCommunication.minimumHistoryLength) {
+            return;
+        }
         string desc_json = JsonUtility.ToJson(history);
         string seq_json = "[";
         for (int i = 0; i < history.motions.Count; i ++) {
