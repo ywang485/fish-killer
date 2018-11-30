@@ -47,4 +47,13 @@ public class NetworkGameManager : NetworkManager {
         GameObject obj = Instantiate(fishPrefab, GameController.instance.playerSpawnPoint.position, Quaternion.identity);
         return obj;
     }
+
+    public override void OnClientDisconnect (NetworkConnection conn) {
+        try {
+            FindObjectOfType<BootGame>().lobby.Leave();
+        } catch (System.Exception e) {
+            Debug.LogException(e);
+        }
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Title");
+    }
 }
